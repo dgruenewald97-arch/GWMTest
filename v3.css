@@ -89,18 +89,17 @@ a { color:inherit; }
 .drive-top { position:absolute; z-index:5; top:0; left:0; right:0; display:grid; grid-template-columns:1fr 1fr 1fr; padding:5.5rem 2vw 1rem; border-bottom:1px solid var(--ink); font-size:.58rem; text-transform:uppercase; letter-spacing:.12em; }
 .drive-top strong { justify-self:center; }
 .drive-top span:last-child { justify-self:end; }
-.drive-word { position:absolute; z-index:0; inset:9vh 0 auto; height:52vh; overflow:hidden; color:rgba(14,14,13,.08); font:900 clamp(15rem,35vw,36rem)/.72 var(--display); letter-spacing:-.08em; white-space:nowrap; }
-.drive-word span { position:absolute; left:1vw; top:0; }
-.drive-word span:last-child { opacity:0; }
-.drive-vehicle { position:absolute; z-index:2; left:26%; right:3%; top:13%; height:58%; }
-.drive-car { position:absolute; inset:0; height:100%; object-fit:contain; filter:drop-shadow(0 28px 22px rgba(0,0,0,.25)); }
-.drive-car--hybrid { z-index:2; opacity:1; clip-path:inset(0 100% 0 0); transform:translateX(10%) scale(.97); }
+.drive-panel { position:absolute; inset:0; overflow:hidden; }
+.drive-panel--turbo { z-index:1; background:var(--sage); }
+.drive-panel--hybrid { z-index:2; background:var(--acid); clip-path:polygon(0 0,-8% 0,0 100%,0 100%); }
+.drive-word { position:absolute; z-index:0; inset:9vh 0 auto 1vw; height:52vh; overflow:hidden; color:rgba(14,14,13,.08); font:900 clamp(15rem,35vw,36rem)/.72 var(--display); letter-spacing:-.08em; white-space:nowrap; }
+.drive-car { position:absolute; z-index:2; left:26%; right:3%; top:13%; width:71%; height:58%; object-fit:contain; filter:drop-shadow(0 28px 22px rgba(0,0,0,.25)); }
 .drive-mode,.drive-count { position:relative; height:1em; overflow:hidden; font-style:normal; }
 .drive-mode { min-width:72px; }.drive-count { min-width:50px; }
 .drive-mode i,.drive-count i { position:absolute; inset:0; font-style:normal; white-space:nowrap; }
 .drive-mode i:last-child,.drive-count i:last-child { transform:translateY(120%); }
 .drive-copy { position:absolute; z-index:3; left:2vw; bottom:7vh; width:min(420px,30vw); }
-.drive-copy--hybrid { opacity:0; transform:translateY(30px); }
+.drive-copy--hybrid { opacity:1; transform:none; }
 .drive-copy h2 { margin:0 0 1.2rem; font:800 clamp(5.5rem,9vw,10rem)/.68 var(--display); letter-spacing:-.05em; text-transform:uppercase; }
 .drive-copy dl { display:grid; grid-template-columns:repeat(3,1fr); margin:0 0 .9rem; border-top:1px solid var(--ink); }
 .drive-copy dl div { padding:.7rem .4rem .7rem 0; border-bottom:1px solid var(--ink); }
@@ -199,7 +198,8 @@ footer > a { align-self:start; text-decoration:none; font-size:.58rem; text-tran
   .drive-mode { height:auto; overflow:visible; }
   .drive-mode i { display:none; }
   .drive-mode::after { content:"Turbo + Hybrid"; }
-  .drive-word,.drive-vehicle,.drive-progress { display:none; }
+  .drive-panel { position:relative; inset:auto; clip-path:none; }
+  .drive-word,.drive-panel > .drive-car,.drive-progress { display:none; }
   .drive-copy { position:relative; left:auto; bottom:auto; width:100%; min-height:88svh; display:flex; flex-direction:column; justify-content:flex-end; padding:45vh 1rem 2rem; overflow:hidden; opacity:1; transform:none; }
   .drive-copy::before { content:""; position:absolute; z-index:0; inset:0; background-position:center 16%; background-repeat:no-repeat; background-size:105% auto; }
   .drive-copy > * { position:relative; z-index:1; }
@@ -271,7 +271,8 @@ footer > a { align-self:start; text-decoration:none; font-size:.58rem; text-tran
   .first-look-media img,.interior-visual img { transform:none; }
   .drive-stage { height:auto; }
   .drive-sticky { position:relative; height:auto; min-height:0; overflow:visible; }
-  .drive-word,.drive-vehicle,.drive-progress { display:none; }
+  .drive-panel { position:relative; inset:auto; clip-path:none; }
+  .drive-word,.drive-panel > .drive-car,.drive-progress { display:none; }
   .drive-top { position:relative; }
   .drive-copy { position:relative; left:auto; bottom:auto; width:100%; min-height:75vh; padding:40vh 2vw 2rem; opacity:1; transform:none; }
   .drive-copy::before { content:""; position:absolute; z-index:0; inset:0; background-position:center 12%; background-repeat:no-repeat; background-size:min(980px,92vw) auto; }

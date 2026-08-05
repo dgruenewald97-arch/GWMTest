@@ -176,14 +176,8 @@
       scrollTrigger: { trigger: ".drive-stage", start: "top top", end: "bottom bottom", scrub: .2 }
     });
     driveTimeline
-      .to(".drive-sticky", { backgroundColor: "#d8ff36", duration: 1 }, 0)
       .to(".drive-progress i", { scaleX: 1, duration: 1 }, 0)
-      .to(".drive-car--turbo", { xPercent: -5, scale: .985, clipPath: "inset(0 0 0 100%)", duration: .66 }, .17)
-      .to(".drive-car--hybrid", { clipPath: "inset(0 0% 0 0)", xPercent: 0, scale: 1, duration: .66 }, .17)
-      .to(".drive-copy--turbo", { clipPath: "inset(0 0 100% 0)", y: -24, autoAlpha: 0, duration: .28 }, .28)
-      .to(".drive-copy--hybrid", { y: 0, autoAlpha: 1, duration: .34 }, .46)
-      .to(".drive-word span:first-child", { yPercent: -30, autoAlpha: 0, duration: .34 }, .24)
-      .to(".drive-word span:last-child", { yPercent: 0, autoAlpha: 1, duration: .38 }, .42)
+      .to(".drive-panel--hybrid", { clipPath: "polygon(0 0,100% 0,108% 100%,0 100%)", duration: 1, ease: "power2.inOut" }, 0)
       .to(".drive-mode i:first-child, .drive-count i:first-child", { yPercent: -120, duration: .25 }, .38)
       .to(".drive-mode i:last-child, .drive-count i:last-child", { yPercent: 0, duration: .25 }, .42)
       .fromTo(".drive-trust span", { y: 10 }, { y: 0, stagger: .025, duration: .2 }, .58);
