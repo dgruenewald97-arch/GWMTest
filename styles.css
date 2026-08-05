@@ -13,7 +13,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; overflow-x: clip; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); overflow-x: hidden; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); overflow-x: clip; }
 body.is-loading { overflow: hidden; }
 img { display: block; width: 100%; }
 a { color: inherit; }
