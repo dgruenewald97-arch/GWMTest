@@ -45,7 +45,7 @@
   const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
   intro.fromTo(".hero h1 > span", { yPercent: 115, rotate: 3 }, { yPercent: 0, rotate: 0, duration: .7, stagger: .045 })
     .from(".hero-topline > *, .hero-bottom > *", { y: 16, autoAlpha: 0, duration: .4, stagger: .035 }, "-=.4")
-    .from(".hero-float", { y: 55, autoAlpha: 0, rotate: 0, duration: .5, stagger: .07 }, "-=.35");
+    .from(".hero-sign", { scale: .2, autoAlpha: 0, rotate: -90, duration: .55 }, "-=.35");
 
   gsap.to(".hero h1 > span:nth-child(odd)", {
     yPercent: -15,
@@ -60,17 +60,16 @@
 
   if (window.matchMedia("(pointer: fine)").matches) {
     const hero = document.querySelector(".hero");
-    const floats = [...document.querySelectorAll(".hero-float")];
-    const xSetters = floats.map((item) => gsap.quickTo(item, "x", { duration: .28, ease: "power3.out" }));
-    const ySetters = floats.map((item) => gsap.quickTo(item, "y", { duration: .28, ease: "power3.out" }));
+    const sign = document.querySelector(".hero-sign");
+    const xTo = sign && gsap.quickTo(sign, "x", { duration: .26, ease: "power3.out" });
+    const yTo = sign && gsap.quickTo(sign, "y", { duration: .26, ease: "power3.out" });
+    const rotateTo = sign && gsap.quickTo(sign, "rotate", { duration: .34, ease: "power3.out" });
     hero?.addEventListener("pointermove", (event) => {
       const x = event.clientX / innerWidth - .5;
       const y = event.clientY / innerHeight - .5;
-      floats.forEach((item, index) => {
-        const depth = 20 + index * 14;
-        xSetters[index](x * depth);
-        ySetters[index](y * depth);
-      });
+      xTo?.(x * 42);
+      yTo?.(y * 34);
+      rotateTo?.(x * 24);
     });
   }
 
@@ -121,26 +120,45 @@
   });
 
   if (!compact) {
-    const cards = gsap.utils.toArray("[data-deck-card]");
-    const deckTimeline = gsap.timeline({
+    const label = document.querySelector("[data-drive-label]");
+    const count = document.querySelector("[data-drive-count]");
+    if (label) label.dataset.hybrid = "false";
+    const driveTimeline = gsap.timeline({
       defaults: { ease: "none" },
       scrollTrigger: {
-        trigger: ".deck",
+        trigger: ".drive-stage",
         start: "top top",
         end: "bottom bottom",
         scrub: .3,
         onUpdate: (self) => {
-          const velocity = Math.max(-1.2, Math.min(1.2, self.getVelocity() / 1800));
-          gsap.to(cards, { skewY: velocity, duration: .18, overwrite: "auto", ease: "power2.out" });
+          gsap.set(".drive-progress i", { scaleX: self.progress });
+          const hybrid = self.progress > .5;
+          if (label && label.dataset.hybrid !== String(hybrid)) {
+            label.dataset.hybrid = String(hybrid);
+            gsap.to([label, count], {
+              autoAlpha: 0,
+              y: -8,
+              duration: .12,
+              overwrite: true,
+              onComplete: () => {
+                label.textContent = hybrid ? "Hybrid" : "Turbo";
+                count.textContent = hybrid ? "02 / 02" : "01 / 02";
+                gsap.fromTo([label, count], { y: 8 }, { y: 0, autoAlpha: 1, duration: .18, ease: "power2.out" });
+              }
+            });
+          }
         }
       }
     });
-    deckTimeline
-      .to(cards[0], { x: "30vw", duration: 1 })
-      .to(cards[0], { x: "-59vw", duration: 1 }, "+=.15")
-      .to(cards[1], { x: "30vw", duration: 1 }, "<")
-      .to(cards[1], { x: "-59vw", duration: 1 }, "+=.15")
-      .to(cards[2], { x: "30vw", duration: 1 }, "<");
+    driveTimeline
+      .to(".drive-sticky", { backgroundColor: "#d8ff36", duration: 1 }, 0)
+      .to(".drive-car--turbo", { autoAlpha: 0, xPercent: -12, scale: .94, duration: .45 }, .18)
+      .to(".drive-copy--turbo", { autoAlpha: 0, y: -34, duration: .35 }, .22)
+      .to(".drive-word span:first-child", { autoAlpha: 0, yPercent: -25, duration: .4 }, .18)
+      .to(".drive-car--hybrid", { autoAlpha: 1, xPercent: 0, scale: 1, duration: .48 }, .4)
+      .to(".drive-copy--hybrid", { autoAlpha: 1, y: 0, duration: .38 }, .48)
+      .to(".drive-word span:last-child", { autoAlpha: 1, yPercent: 0, duration: .4 }, .42)
+      .fromTo(".drive-trust span", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .04, duration: .25 }, .68);
   }
 
   gsap.to(".interior-visual img", {
@@ -149,21 +167,19 @@
     ease: "none",
     scrollTrigger: { trigger: ".interior", start: "top bottom", end: "45% top", scrub: .28 }
   });
-  gsap.from(".interior-detail--screen", {
-    xPercent: -45,
-    y: 90,
-    rotate: -12,
-    autoAlpha: 0,
-    duration: .65,
-    scrollTrigger: { trigger: ".interior-detail--screen", start: "top 90%", once: true }
-  });
-  gsap.from(".interior-detail--seat", {
-    xPercent: 45,
-    y: 90,
-    rotate: 12,
-    autoAlpha: 0,
-    duration: .65,
-    scrollTrigger: { trigger: ".interior-detail--seat", start: "top 90%", once: true }
+  document.querySelectorAll(".interior-grid figure").forEach((figure, index) => {
+    gsap.from(figure, {
+      clipPath: index ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)",
+      duration: .68,
+      ease: "power3.inOut",
+      scrollTrigger: { trigger: figure, start: "top 88%", once: true }
+    });
+    gsap.to(figure.querySelector("img"), {
+      yPercent: index ? -5 : 5,
+      scale: 1.06,
+      ease: "none",
+      scrollTrigger: { trigger: figure, start: "top bottom", end: "bottom top", scrub: .25 }
+    });
   });
 
   document.querySelectorAll(".space-word span").forEach((line, index) => {
@@ -177,18 +193,25 @@
 
   if (!compact) {
     const rail = document.querySelector("[data-color-rail]");
-    const getDistance = () => Math.max(0, rail.scrollWidth - innerWidth + innerWidth * .04);
-    gsap.to(rail, {
+    const getDistance = () => Math.max(0, rail.scrollWidth - innerWidth);
+    const railTween = gsap.to(rail, {
       x: () => -getDistance(),
       ease: "none",
       scrollTrigger: {
-        trigger: ".colors",
+        trigger: ".chromatic",
         start: "top top",
-        end: () => "+=" + (getDistance() + innerHeight * .8),
+        end: () => "+=" + getDistance(),
         pin: true,
         scrub: .3,
         invalidateOnRefresh: true
       }
+    });
+    document.querySelectorAll(".color-scene").forEach((scene) => {
+      gsap.fromTo(scene.querySelector("h2"), { xPercent: 8 }, {
+        xPercent: -8,
+        ease: "none",
+        scrollTrigger: { trigger: scene, containerAnimation: railTween, start: "left right", end: "right left", scrub: .2 }
+      });
     });
   }
 

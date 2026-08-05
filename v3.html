@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="v3.css?v=20260805-1">
+  <link rel="stylesheet" href="v3.css?v=20260805-2">
 </head>
 <body>
   <a class="skip" href="#content">Zum Inhalt springen</a>
@@ -38,8 +38,7 @@
         <p>Ikonisches Design, zwei Antriebe<br>und ziemlich viel OHHH.</p>
         <a href="#first-look">Scroll to discover <b>↓</b></a>
       </div>
-      <div class="hero-float hero-float--front" aria-hidden="true"><img src="assets/ora5/design-front.jpg" alt=""><span>01 / Iconic</span></div>
-      <div class="hero-float hero-float--screen" aria-hidden="true"><img src="assets/ora5/interior-screen.jpg" alt=""><span>02 / Smart</span></div>
+      <div class="hero-sign" aria-hidden="true"><i></i><b></b></div>
     </section>
 
     <section class="first-look" id="first-look">
@@ -62,43 +61,34 @@
       <div class="grid-note"><span>Design of the Year</span><strong>2025</strong><p>London Design Awards</p></div>
     </section>
 
-    <section class="deck" id="drive" aria-label="ORA 5 Kartenstory">
-      <div class="deck-sticky">
-        <div class="deck-intro">
-          <span>02 / Choose your drive</span>
-          <h2>Zwei Wege.<br>Ein Statement.</h2>
-          <p>Scroll durch die Karten.</p>
+    <section class="drive-stage" id="drive" aria-label="Turbo und Hybrid im Vergleich">
+      <div class="drive-sticky">
+        <div class="drive-top"><span>02 / Choose your drive</span><strong data-drive-label>Turbo</strong><span data-drive-count>01 / 02</span></div>
+        <div class="drive-word" aria-hidden="true"><span>TURBO</span><span>HYBRID</span></div>
+
+        <div class="drive-vehicle">
+          <img class="drive-car drive-car--turbo" src="assets/ora5/turbo-grey.png" alt="GWM ORA 5 Turbo in Glacier Grey" loading="lazy">
+          <img class="drive-car drive-car--hybrid" src="assets/ora5/hybrid-white.png" alt="GWM ORA 5 Hybrid in Dover White" loading="lazy">
         </div>
 
-        <article class="deck-card deck-card--turbo" data-deck-card>
-          <div class="card-head"><span>01</span><strong>ORA 5 Turbo</strong><span>Ab 24.990 €¹</span></div>
-          <img src="assets/ora5/turbo-grey.png" alt="GWM ORA 5 Turbo in Glacier Grey" loading="lazy">
-          <div class="card-body">
-            <h3>Direkt.<br>Agil.</h3>
-            <dl><div><dt>Leistung</dt><dd>160 PS</dd></div><div><dt>0–100</dt><dd>9,3 s</dd></div><div><dt>Drehmoment</dt><dd>270 Nm</dd></div></dl>
-            <a href="https://www.gwm-motor.de/angebotsanfrage?brand=ORA&amp;id=9&amp;model=GWM+ORA+5" target="_blank" rel="noopener" data-cta-location="v3-card" data-powertrain="turbo">Turbo Angebot ↗</a>
-          </div>
-        </article>
+        <div class="drive-copy drive-copy--turbo">
+          <h2>Direkt.<br>Agil.</h2>
+          <dl><div><dt>Leistung</dt><dd>160 PS</dd></div><div><dt>0–100</dt><dd>9,3 s</dd></div><div><dt>Drehmoment</dt><dd>270 Nm</dd></div></dl>
+          <div class="drive-price"><span>Ab</span><strong>24.990 €¹</strong></div>
+          <a href="https://www.gwm-motor.de/angebotsanfrage?brand=ORA&amp;id=9&amp;model=GWM+ORA+5" target="_blank" rel="noopener" data-cta-location="v3-drive" data-powertrain="turbo">Turbo Angebot ↗</a>
+        </div>
 
-        <article class="deck-card deck-card--hybrid" data-deck-card>
-          <div class="card-head"><span>02</span><strong>ORA 5 Hybrid</strong><span>Ab 26.990 €¹</span></div>
-          <img src="assets/ora5/hybrid-white.png" alt="GWM ORA 5 Hybrid in Dover White" loading="lazy">
-          <div class="card-body">
-            <h3>Kraftvoll.<br>Effizient.</h3>
-            <dl><div><dt>System</dt><dd>223 PS</dd></div><div><dt>0–100</dt><dd>7,7 s</dd></div><div><dt>Verbrauch</dt><dd>5,1 l</dd></div></dl>
-            <a href="https://www.gwm-motor.de/angebotsanfrage?brand=ORA&amp;id=9&amp;model=GWM+ORA+5" target="_blank" rel="noopener" data-cta-location="v3-card" data-powertrain="hybrid">Hybrid Angebot ↗</a>
-          </div>
-        </article>
+        <div class="drive-copy drive-copy--hybrid">
+          <h2>Kraftvoll.<br>Effizient.</h2>
+          <dl><div><dt>System</dt><dd>223 PS</dd></div><div><dt>0–100</dt><dd>7,7 s</dd></div><div><dt>Verbrauch</dt><dd>5,1 l</dd></div></dl>
+          <div class="drive-price"><span>Ab</span><strong>26.990 €¹</strong></div>
+          <a href="https://www.gwm-motor.de/angebotsanfrage?brand=ORA&amp;id=9&amp;model=GWM+ORA+5" target="_blank" rel="noopener" data-cta-location="v3-drive" data-powertrain="hybrid">Hybrid Angebot ↗</a>
+        </div>
 
-        <article class="deck-card deck-card--trust" data-deck-card>
-          <div class="card-head"><span>03</span><strong>Good feeling</strong><span>Every day</span></div>
-          <div class="trust-numbers">
-            <div><strong>&gt;20</strong><span>Assistenzsysteme</span></div>
-            <div><strong>7</strong><span>Airbags</span></div>
-            <div><strong>7</strong><span>Jahre Garantie²</span></div>
-          </div>
-          <p>Sieht gut aus.<br>Passt auf dich auf.</p>
-        </article>
+        <div class="drive-trust">
+          <span>&gt;20 Assistenzsysteme</span><span>7 Airbags</span><span>7 Jahre Garantie²</span>
+        </div>
+        <div class="drive-progress" aria-hidden="true"><i></i></div>
       </div>
     </section>
 
@@ -110,8 +100,10 @@
         <p>Technik, die nicht nach Technik aussehen muss. Klar, schnell und intuitiv.</p>
         <dl><div><dt>Multimedia</dt><dd>14,6″</dd></div><div><dt>Cockpit</dt><dd>10,25″</dd></div><div><dt>System</dt><dd>Coffee OS 3</dd></div></dl>
       </div>
-      <figure class="interior-detail interior-detail--screen"><img src="assets/ora5/interior-screen.jpg" alt="Multimediadisplay im ORA 5" loading="lazy"><figcaption>Everything in view</figcaption></figure>
-      <figure class="interior-detail interior-detail--seat"><img src="assets/ora5/interior-seats.jpg" alt="Sitze im ORA 5" loading="lazy"><figcaption>Your space</figcaption></figure>
+      <div class="interior-grid">
+        <figure><img src="assets/ora5/interior-screen.jpg" alt="Multimediadisplay im ORA 5" loading="lazy"><figcaption>Everything in view</figcaption></figure>
+        <figure><img src="assets/ora5/interior-seats.jpg" alt="Sitze im ORA 5" loading="lazy"><figcaption>Your space</figcaption></figure>
+      </div>
     </section>
 
     <section class="space">
@@ -119,16 +111,15 @@
       <div class="space-stats"><div><span>Länge</span><strong>4,47 m</strong></div><div><span>Radstand</span><strong>2,72 m</strong></div><div><span>Gepäckraum</span><strong>bis 1.120 l</strong></div></div>
     </section>
 
-    <section class="colors" id="colors">
-      <div class="colors-head"><span>04 / Seven shades</span><h2>Pick your<br>personality.</h2><p>Sieben echte ORA‑5-Lackierungen.<br>Eine Entscheidung, die hängen bleibt.</p></div>
-      <div class="color-rail" data-color-rail>
-        <article style="--tone:#e9e9e5"><span>01</span><img src="assets/ora5/dover-white.png" alt="ORA 5 Dover White" loading="lazy"><h3>Dover White</h3></article>
-        <article style="--tone:#141518;--text:#f5f2e9"><span>02</span><img src="assets/ora5/night-black.png" alt="ORA 5 Night Black" loading="lazy"><h3>Night Black</h3></article>
-        <article style="--tone:#999d9d"><span>03</span><img src="assets/ora5/glacier-grey.png" alt="ORA 5 Glacier Grey" loading="lazy"><h3>Glacier Grey</h3></article>
-        <article style="--tone:#657a6d;--text:#f5f2e9"><span>04</span><img src="assets/ora5/forest-green.png" alt="ORA 5 Forest Green" loading="lazy"><h3>Forest Green</h3></article>
-        <article style="--tone:#d8d9d2"><span>05</span><img src="assets/ora5/cloud-white.png" alt="ORA 5 Cloud White" loading="lazy"><h3>Cloud White</h3></article>
-        <article style="--tone:#777d7c"><span>06</span><img src="assets/ora5/ayers-grey.png" alt="ORA 5 Ayers Grey" loading="lazy"><h3>Ayers Grey</h3></article>
-        <article style="--tone:#527986;--text:#f5f2e9"><span>07</span><img src="assets/ora5/sea-blue.png" alt="ORA 5 Sea Blue" loading="lazy"><h3>Sea Blue</h3></article>
+    <section class="chromatic" id="colors" aria-label="Sieben ORA 5 Farben">
+      <div class="chromatic-track" data-color-rail>
+        <article class="color-scene" style="--tone:#e9e9e5"><span>01 / 07</span><img src="assets/ora5/dover-white.png" alt="ORA 5 Dover White" loading="lazy"><h2>Dover<br>White</h2><p>Serienfarbe</p></article>
+        <article class="color-scene" style="--tone:#111215;--text:#f5f2e9"><span>02 / 07</span><img src="assets/ora5/night-black.png" alt="ORA 5 Night Black" loading="lazy"><h2>Night<br>Black</h2><p>750 €</p></article>
+        <article class="color-scene" style="--tone:#a2a6a4"><span>03 / 07</span><img src="assets/ora5/glacier-grey.png" alt="ORA 5 Glacier Grey" loading="lazy"><h2>Glacier<br>Grey</h2><p>750 €</p></article>
+        <article class="color-scene" style="--tone:#667c6d;--text:#f5f2e9"><span>04 / 07</span><img src="assets/ora5/forest-green.png" alt="ORA 5 Forest Green" loading="lazy"><h2>Forest<br>Green</h2><p>750 €</p></article>
+        <article class="color-scene" style="--tone:#d8d9d2"><span>05 / 07</span><img src="assets/ora5/cloud-white.png" alt="ORA 5 Cloud White" loading="lazy"><h2>Cloud<br>White</h2><p>750 €</p></article>
+        <article class="color-scene" style="--tone:#777d7c"><span>06 / 07</span><img src="assets/ora5/ayers-grey.png" alt="ORA 5 Ayers Grey" loading="lazy"><h2>Ayers<br>Grey</h2><p>750 €</p></article>
+        <article class="color-scene" style="--tone:#527986;--text:#f5f2e9"><span>07 / 07</span><img src="assets/ora5/sea-blue.png" alt="ORA 5 Sea Blue" loading="lazy"><h2>Sea<br>Blue</h2><p>750 €</p></article>
       </div>
     </section>
 
@@ -158,6 +149,6 @@
   <script src="assets/vendor/lenis-1.3.26.js"></script>
   <script src="assets/vendor/gsap-3.15.0.js"></script>
   <script src="assets/vendor/scrolltrigger-3.15.0.js"></script>
-  <script src="v3.js?v=20260805-1"></script>
+  <script src="v3.js?v=20260805-2"></script>
 </body>
 </html>
