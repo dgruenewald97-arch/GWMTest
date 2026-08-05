@@ -67,7 +67,6 @@ a { color:inherit; }
 .design-reel { position:relative; height:420vh; background:var(--paper); }
 .design-stage { position:sticky; top:0; height:100vh; min-height:680px; overflow:hidden; background:var(--ink); }
 .design-deck,.drive-deck,.interior-deck { position:absolute; inset:0; }
-.swipe-hint { display:none; }
 .design-stage-meta { position:absolute; z-index:10; top:0; left:0; right:0; display:flex; justify-content:space-between; padding:5.5rem 2vw 1rem; color:#fff; border-bottom:1px solid rgba(255,255,255,.55); font-size:.55rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; mix-blend-mode:difference; }
 .reel-shot { position:absolute; inset:0; margin:0; overflow:hidden; clip-path:inset(0); }
 .reel-shot:not(:first-of-type) { clip-path:inset(0 100% 0 0); }
@@ -196,8 +195,6 @@ footer > a { align-self:start; text-decoration:none; font-size:.58rem; text-tran
   .swipe-deck > :nth-child(7) { z-index:4 !important; }
   .swipe-deck > .is-active { z-index:20 !important; opacity:1; filter:none; }
   .swipe-deck > :last-child { margin-right:0; }
-  .swipe-hint { position:relative; z-index:25; display:flex; align-items:center; justify-content:space-between; margin:.15rem 6vw 1.1rem; font-size:.54rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; }
-  .swipe-hint b { font-size:1rem; }
   .design-reel { height:auto; padding-bottom:1rem; }
   .design-stage { position:relative; height:auto; min-height:0; overflow:hidden; background:var(--paper); }
   .design-stage-meta { position:relative; padding:4.8rem 1rem 1rem; color:var(--ink); border-color:rgba(14,14,13,.35); mix-blend-mode:normal; }
@@ -245,7 +242,6 @@ footer > a { align-self:start; text-decoration:none; font-size:.58rem; text-tran
   .chromatic { height:auto; overflow:hidden; padding:4.6rem 0 1rem; }
   .chromatic-track { position:relative; top:auto; width:100%; height:72svh; overflow-x:auto; overflow-y:hidden; }
   .chromatic-track > .color-scene { position:relative; inset:auto; flex-basis:92vw; height:100%; clip-path:none; padding:2.6rem 1rem 1rem; }
-  .swipe-hint--colors { margin-top:0; }
   .color-scene img { left:5%; top:17%; width:90%; height:58%; }
   .color-scene h2 { left:1rem; bottom:1rem; font-size:18vw; }
   .color-scene p { right:1rem; bottom:1rem; }
@@ -306,7 +302,6 @@ footer > a { align-self:start; text-decoration:none; font-size:.58rem; text-tran
 
   .swipe-deck { padding-right:3vw; scroll-padding-inline:0; }
   .swipe-deck > .reel-shot,.swipe-deck > .award-stamp,.swipe-deck > .drive-panel,.swipe-deck > .interior-scene,.swipe-deck > .color-scene { flex-basis:97vw; margin-right:-7vw; box-shadow:1px 0 0 rgba(14,14,13,.24); }
-  .swipe-hint { margin:.45rem 1rem 1.35rem; }
 
   .design-reel { padding-bottom:.5rem; }
   .design-stage-meta { padding:4.7rem 1rem .8rem; }
@@ -342,7 +337,6 @@ footer > a { align-self:start; text-decoration:none; font-size:.58rem; text-tran
   .interior-scene figcaption { left:1.25rem; right:1.25rem; bottom:1.5rem; }
   .interior-scene figcaption span { margin-bottom:.65rem; }
   .interior-scene figcaption strong { max-width:88vw; font-size:clamp(3.6rem,14vw,5.8rem); line-height:.77; }
-  .interior-sticky > .swipe-hint { margin-top:-2.35rem; color:#fff; text-shadow:0 1px 10px rgba(0,0,0,.45); }
   .interior-data { grid-template-columns:repeat(3,1fr); padding:0 1rem 5.25rem; }
   .interior-data div { padding:.85rem .35rem; }
   .interior-data strong { font-size:clamp(1.25rem,5.8vw,2rem); }
