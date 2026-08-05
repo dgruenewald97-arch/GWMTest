@@ -60,7 +60,7 @@ button { font: inherit; }
 .reveal-line span { display: block; }
 .hero-title { grid-column: 1 / -1; grid-row: 2; max-width: 1100px; margin: 0; font: 800 clamp(4.6rem, 10.2vw, 10rem)/.78 var(--display); letter-spacing: -.055em; text-transform: uppercase; }
 .mask-line { display: block; padding-bottom: .08em; overflow: hidden; }
-.mask-line > span { display: block; transform: translateY(110%) rotate(2deg); transform-origin: left bottom; }
+.mask-line > span { display: block; transform: none; transform-origin: left bottom; }
 .hero-title .mask-line:last-child { color: var(--acid); }
 .hero-conversion { grid-column: 1 / -1; grid-row: 3; display: grid; grid-template-columns: auto minmax(230px, 1fr) auto; align-items: end; gap: 2rem; padding: 1rem 0 1.8rem; border-bottom: 1px solid rgba(255,255,255,.34); }
 .price-lockup { display: flex; flex-direction: column; }
