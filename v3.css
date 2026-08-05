@@ -94,6 +94,7 @@ a { color:inherit; }
 .drive-panel--hybrid { z-index:2; background:var(--acid); clip-path:polygon(0 0,-8% 0,0 100%,0 100%); }
 .drive-word { position:absolute; z-index:0; inset:9vh 0 auto 1vw; height:52vh; overflow:hidden; color:rgba(14,14,13,.08); font:900 clamp(15rem,35vw,36rem)/.72 var(--display); letter-spacing:-.08em; white-space:nowrap; }
 .drive-car { position:absolute; z-index:2; left:26%; right:3%; top:13%; width:71%; height:58%; object-fit:contain; filter:drop-shadow(0 28px 22px rgba(0,0,0,.25)); }
+.drive-panel--hybrid .drive-car { transform:translateX(-38%) scale(.62); }
 .drive-mode,.drive-count { position:relative; height:1em; overflow:hidden; font-style:normal; }
 .drive-mode { min-width:72px; }.drive-count { min-width:50px; }
 .drive-mode i,.drive-count i { position:absolute; inset:0; font-style:normal; white-space:nowrap; }

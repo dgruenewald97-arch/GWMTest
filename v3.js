@@ -178,6 +178,8 @@
     driveTimeline
       .to(".drive-progress i", { scaleX: 1, duration: 1 }, 0)
       .to(".drive-panel--hybrid", { clipPath: "polygon(0 0,100% 0,108% 100%,0 100%)", duration: 1, ease: "power2.inOut" }, 0)
+      .to(".drive-panel--turbo .drive-car", { xPercent: 38, scale: .62, duration: 1 }, 0)
+      .to(".drive-panel--hybrid .drive-car", { xPercent: 0, scale: 1, duration: 1 }, 0)
       .to(".drive-mode i:first-child, .drive-count i:first-child", { yPercent: -120, duration: .25 }, .38)
       .to(".drive-mode i:last-child, .drive-count i:last-child", { yPercent: 0, duration: .25 }, .42)
       .fromTo(".drive-trust span", { y: 10 }, { y: 0, stagger: .025, duration: .2 }, .58);
