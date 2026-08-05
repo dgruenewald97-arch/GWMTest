@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f0eee7">
+  <title>GWM — Own The Colour</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
+
+    :root {
+      --ink:#11110f;
+      --paper:#f1efe8;
+      --acid:#dfff00;
+      --ease:cubic-bezier(.22,.78,.18,1);
+    }
+    * { box-sizing:border-box; }
+    html,body { margin:0; padding:0; }
+    body { background:var(--paper); color:var(--ink); font-family:"DM Sans",Arial,sans-serif; overflow-x:clip; }
+    button { font:inherit; color:inherit; }
+
+    .demo-intro {
+      position:relative; min-height:100vh; padding:clamp(24px,3vw,46px); overflow:hidden;
+      display:grid; grid-template-rows:auto 1fr auto; background:var(--paper); isolation:isolate;
+    }
+    .demo-intro__top,.demo-outro__top { display:flex; justify-content:space-between; gap:24px; font-size:10px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; }
+    .demo-intro h1 { position:relative; z-index:5; align-self:center; width:min(860px,70vw); margin:8vh 0; font:800 clamp(72px,13.5vw,198px)/.69 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.05em; text-transform:uppercase; }
+    .demo-intro__bottom { position:relative; z-index:5; width:48%; display:flex; justify-content:space-between; align-items:end; gap:30px; }
+    .demo-intro__bottom p { max-width:550px; margin:0; font-size:clamp(14px,1.3vw,18px); line-height:1.55; }
+    .demo-intro__scroll { width:52px; height:52px; display:grid; place-items:center; border:1px solid var(--ink); border-radius:50%; font-size:23px; animation:bob 1.8s ease-in-out infinite; }
+    @keyframes bob { 50% { transform:translateY(8px); } }
+    .hero-cards { position:absolute; inset:0 0 0 50%; z-index:1; }
+    .hero-card { position:absolute; top:0; bottom:0; overflow:hidden; border-left:1px solid rgba(17,17,15,.2); }
+    .hero-card img { width:100%; height:100%; display:block; object-fit:cover; }
+    .hero-card--main { left:0; width:72%; background:#a8bacd; }
+    .hero-card--main img { height:62%; margin-top:19%; }
+    .hero-card--main::before,.hero-card--main::after { content:""; position:absolute; left:0; right:0; height:19%; background:#a8bacd; z-index:2; }
+    .hero-card--main::before { top:0; }
+    .hero-card--main::after { bottom:0; }
+    .hero-card--rose { left:72%; width:18%; background:#b99aaa; }
+    .hero-card--rose img { height:38%; margin-top:46vh; }
+    .hero-card--sage { left:90%; width:10%; background:#819581; }
+    .hero-card--sage img { height:28%; margin-top:70vh; }
+    .hero-card__number { position:absolute; bottom:10px; left:9px; z-index:4; font-size:9px; font-weight:600; }
+
+    /* Standalone module. All selectors are namespaced. */
+    .cvx-module,.cvx-module * { box-sizing:border-box; }
+    .cvx-module { position:relative; height:700vh; background:var(--paper); isolation:isolate; }
+    .cvx-shell { position:sticky; top:0; width:100%; height:100vh; min-height:620px; overflow:hidden; background:var(--paper); }
+
+    .cvx-intro {
+      position:absolute; inset:0 auto 0 0; z-index:1; width:50vw; padding:clamp(24px,3vw,46px);
+      display:grid; grid-template-rows:auto 1fr auto; background:var(--paper);
+    }
+    .cvx-intro__nav { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; font-size:10px; font-weight:600; }
+    .cvx-intro__nav span { display:flex; align-items:center; gap:9px; white-space:nowrap; }
+    .cvx-intro__nav i { width:6px; height:6px; border-radius:50%; background:var(--dot); }
+    .cvx-intro__word { align-self:center; margin:0; font:800 clamp(118px,17vw,260px)/.67 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.055em; text-transform:uppercase; }
+    .cvx-intro__copy { padding-top:14px; border-top:1px solid var(--ink); display:grid; grid-template-columns:1fr auto; gap:30px; align-items:end; }
+    .cvx-intro__copy p { max-width:540px; margin:0; font-size:clamp(13px,1.08vw,16px); line-height:1.45; }
+    .cvx-intro__count { font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; }
+
+    .cvx-logo {
+      position:absolute; top:26px; left:26px; z-index:100; color:#111; mix-blend-mode:multiply;
+      font:800 42px/.7 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.06em; text-transform:uppercase;
+      pointer-events:none;
+    }
+    .cvx-menu {
+      position:absolute; top:26px; right:24px; z-index:100; min-width:112px; height:52px; padding:0 19px;
+      display:flex; align-items:center; justify-content:space-between; gap:14px; border:0; border-radius:99px;
+      background:#141412; color:#fff; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+    }
+    .cvx-menu i { width:7px; height:7px; border-radius:50%; background:#e48b5f; }
+
+    .cvx-deck { position:absolute; inset:0; z-index:3; pointer-events:none; }
+    .cvx-card {
+      --card:#809681; --contrast:#111;
+      position:absolute; top:0; left:0; width:67vw; height:100%; overflow:hidden;
+      background:var(--card); color:var(--contrast); border-left:1px solid rgba(17,17,15,.2);
+      box-shadow:-20px 0 50px rgba(0,0,0,.08); will-change:transform; pointer-events:auto;
+    }
+    .cvx-card__image { position:absolute; inset:0 0 32%; overflow:hidden; background:#222; }
+    .cvx-card__image img { width:100%; height:100%; display:block; object-fit:cover; object-position:center; transform:scale(1.025); transition:transform 1.4s var(--ease); }
+    .cvx-card.is-current .cvx-card__image img { transform:scale(1); }
+    .cvx-card__image::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.16)); pointer-events:none; }
+    .cvx-card__body { position:absolute; inset:68% 0 0; padding:14px 12px 10px; background:var(--card); display:grid; grid-template-rows:auto 1fr auto; }
+    .cvx-card__meta { display:grid; grid-template-columns:1fr 1fr 1.6fr; gap:16px; font-size:9px; font-weight:600; letter-spacing:.02em; text-transform:uppercase; }
+    .cvx-card__price { justify-self:start; padding:3px 10px; border:1px solid currentColor; border-radius:99px; }
+    .cvx-card__title { align-self:center; justify-self:center; max-width:90%; margin:0; font:500 clamp(58px,8vw,125px)/.76 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.035em; text-align:center; text-transform:uppercase; white-space:nowrap; }
+    .cvx-card__footer { display:flex; align-items:end; justify-content:space-between; }
+    .cvx-card__index { font-size:10px; font-weight:600; }
+    .cvx-card__next { width:54px; height:54px; border:1px solid currentColor; border-radius:50%; background:transparent; display:grid; place-items:center; cursor:pointer; font-size:20px; transition:background .25s ease,color .25s ease,transform .25s ease; }
+    .cvx-card__next:hover,.cvx-card__next:focus-visible { background:currentColor; color:var(--card); transform:rotate(-12deg); outline:none; }
+
+    .cvx-tab {
+      position:absolute; left:10px; bottom:9px; z-index:5; opacity:0; transform:translateY(8px); pointer-events:none;
+      font:700 clamp(22px,2.4vw,38px)/.8 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.02em; text-transform:uppercase;
+      writing-mode:vertical-rl; transition:opacity .25s ease,transform .35s ease;
+    }
+    .cvx-card.is-peek .cvx-tab { opacity:1; transform:none; }
+    .cvx-card.is-peek .cvx-card__body > *:not(.cvx-tab) { opacity:0; }
+
+    .cvx-progress {
+      position:absolute; z-index:90; right:12px; top:92px; bottom:22px; width:2px; background:rgba(17,17,15,.14);
+    }
+    .cvx-progress__bar { width:100%; height:0; background:var(--ink); }
+    .cvx-instruction { position:absolute; z-index:90; left:25px; bottom:18px; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; mix-blend-mode:difference; color:#fff; }
+
+    .cvx-mobile { display:none; }
+
+    .version-switch-v1 {
+      position:fixed; z-index:1000; top:18px; right:18px; display:inline-flex; padding:3px;
+      border:1px solid #11110f; border-radius:999px; background:rgba(241,239,232,.9);
+      box-shadow:0 6px 20px rgba(0,0,0,.12); backdrop-filter:blur(10px);
+    }
+    .version-switch-v1 a {
+      display:grid; place-items:center; min-width:38px; height:30px; border-radius:999px;
+      color:#11110f; text-decoration:none; font:800 10px/1 "DM Sans",Arial,sans-serif; letter-spacing:.1em;
+    }
+    .version-switch-v1 a.is-active { background:#dfff00; }
+
+    .campaign-marquee { overflow:hidden; padding:17px 0 15px; background:var(--acid); border-top:1px solid #111; border-bottom:1px solid #111; }
+    .campaign-marquee__track { display:flex; width:max-content; animation:marquee 24s linear infinite; }
+    .campaign-marquee span { padding-right:34px; font:700 clamp(30px,4.5vw,66px)/.85 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.02em; text-transform:uppercase; }
+    @keyframes marquee { to { transform:translateX(-50%); } }
+
+    .campaign-manifesto { position:relative; min-height:130vh; padding:clamp(28px,5vw,74px); overflow:hidden; background:#121210; color:#f2efe7; }
+    .campaign-manifesto__top { display:flex; justify-content:space-between; font-size:10px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; }
+    .campaign-manifesto h2 { max-width:1250px; margin:18vh 0 8vh; font:700 clamp(70px,13vw,190px)/.76 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.04em; text-transform:uppercase; }
+    .campaign-manifesto h2 em { color:var(--acid); font-style:normal; }
+    .campaign-manifesto__foot { display:grid; grid-template-columns:1fr 1fr; gap:8vw; align-items:end; }
+    .campaign-manifesto__foot p { max-width:550px; margin:0; font-size:clamp(15px,1.4vw,21px); line-height:1.55; }
+    .campaign-manifesto__swatches { display:flex; height:130px; align-items:stretch; }
+    .campaign-manifesto__swatches i { flex:1; background:var(--sw); transition:flex .45s var(--ease); }
+    .campaign-manifesto__swatches i:hover { flex:2.7; }
+
+    .story { padding:clamp(28px,5vw,76px); }
+    .story--material { background:#e9e5dd; color:#111; }
+    .story__eyebrow { display:flex; justify-content:space-between; margin-bottom:9vh; padding-bottom:14px; border-bottom:1px solid currentColor; font-size:10px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; }
+    .story__grid { display:grid; grid-template-columns:.85fr 1.15fr; gap:clamp(24px,6vw,100px); align-items:start; }
+    .story__image { position:relative; min-height:78vh; overflow:hidden; background:#777; }
+    .story__image img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform 1.2s var(--ease); }
+    .story__image:hover img { transform:scale(1.035); }
+    .story__copy { padding-top:3vh; }
+    .story__copy h2 { margin:0 0 5vh; font:700 clamp(70px,10vw,150px)/.73 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.04em; text-transform:uppercase; }
+    .story__copy p { max-width:600px; margin:0 0 7vh; font-size:clamp(16px,1.6vw,23px); line-height:1.5; }
+    .story__facts { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; border-top:1px solid currentColor; }
+    .story__fact { padding:16px 0; }
+    .story__fact strong { display:block; margin-bottom:4px; font:600 clamp(40px,5vw,72px)/1 "Barlow Condensed",Impact,sans-serif; }
+    .story__fact span { font-size:9px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; }
+
+    .editorial { display:grid; grid-template-columns:1fr 1fr; min-height:110vh; background:#af92a1; color:#111; }
+    .editorial__copy { padding:clamp(28px,5vw,76px); display:flex; flex-direction:column; justify-content:space-between; }
+    .editorial__copy h2 { margin:0; font:700 clamp(76px,12vw,180px)/.71 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.045em; text-transform:uppercase; }
+    .editorial__copy p { max-width:520px; font-size:clamp(16px,1.5vw,22px); line-height:1.5; }
+    .editorial__media { position:relative; min-height:100%; overflow:hidden; }
+    .editorial__media img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .editorial__badge { position:absolute; right:24px; bottom:24px; width:94px; height:94px; border-radius:50%; background:var(--acid); display:grid; place-items:center; text-align:center; font-size:9px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; transform:rotate(10deg); }
+
+    .palette-section { background:#111; color:#f1efe8; padding:clamp(30px,5vw,76px); }
+    .palette-section__head { display:flex; justify-content:space-between; align-items:end; gap:30px; margin-bottom:10vh; }
+    .palette-section__head h2 { max-width:970px; margin:0; font:700 clamp(72px,12vw,174px)/.72 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.045em; text-transform:uppercase; }
+    .palette-section__head p { max-width:320px; margin:0 0 12px; line-height:1.5; }
+    .palette-list { border-top:1px solid rgba(255,255,255,.3); }
+    .palette-row { --row:#839A84; display:grid; grid-template-columns:80px 1fr auto; align-items:center; min-height:120px; border-bottom:1px solid rgba(255,255,255,.3); transition:background .35s ease,color .35s ease,padding .35s ease; }
+    .palette-row:hover { padding:0 24px; background:var(--row); color:var(--row-contrast,#111); }
+    .palette-row span { font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+    .palette-row strong { font:600 clamp(46px,6vw,94px)/1 "Barlow Condensed",Impact,sans-serif; text-transform:uppercase; }
+    .palette-row i { width:38px; height:38px; border-radius:50%; background:var(--row); border:1px solid currentColor; }
+
+    .campaign-quote { min-height:90vh; padding:clamp(28px,5vw,76px); display:grid; align-content:center; background:var(--acid); color:#111; }
+    .campaign-quote blockquote { margin:0; font:700 clamp(72px,13vw,190px)/.72 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.045em; text-transform:uppercase; }
+    .campaign-quote footer { margin-top:5vh; font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; }
+
+    .demo-outro { min-height:78vh; padding:clamp(24px,3vw,46px); display:grid; grid-template-rows:auto 1fr auto; background:#f1efe8; color:#111; }
+    .demo-outro h2 { align-self:center; max-width:970px; margin:7vh 0; font:800 clamp(70px,13vw,190px)/.71 "Barlow Condensed",Impact,sans-serif; letter-spacing:-.045em; text-transform:uppercase; }
+    .demo-outro p { max-width:550px; margin:0; font-size:15px; line-height:1.5; }
+
+    @media (max-width:1100px) and (min-width:901px) {
+      .cvx-intro { width:56vw; }
+      .cvx-intro__nav { grid-template-columns:1fr 1fr; }
+      .cvx-card { width:72vw; }
+      .cvx-card__title { font-size:clamp(52px,7vw,96px); }
+    }
+    @media (max-width:900px) {
+      .demo-intro { min-height:100svh; padding-bottom:24px; }
+      .demo-intro h1 { width:96%; align-self:start; margin:16vh 0 0; font-size:clamp(76px,26vw,132px); }
+      .demo-intro__bottom { width:100%; }
+      .demo-intro__bottom p { max-width:72%; }
+      .hero-cards { inset:42% 0 0 38%; }
+      .hero-card--main { width:66%; }
+      .hero-card--main img { height:70%; margin-top:15%; }
+      .hero-card--main::before,.hero-card--main::after { height:15%; }
+      .hero-card--rose { left:66%; width:22%; }
+      .hero-card--rose img { margin-top:23vh; height:44%; }
+      .hero-card--sage { left:88%; width:12%; }
+      .campaign-manifesto { min-height:105vh; }
+      .campaign-manifesto h2 { margin-top:16vh; font-size:clamp(72px,23vw,120px); }
+      .campaign-manifesto__foot { grid-template-columns:1fr; gap:8vh; }
+      .campaign-manifesto__swatches { height:90px; }
+      .cvx-module { height:auto; padding:18px 0 28px; background:#111; }
+      .cvx-shell { position:relative; height:auto; min-height:0; overflow:visible; background:#111; }
+      .cvx-intro,.cvx-deck,.cvx-progress,.cvx-instruction { display:none; }
+      .cvx-logo { position:relative; top:auto; left:auto; margin:10px 20px 28px; color:#fff; mix-blend-mode:normal; }
+      .cvx-menu { top:20px; right:20px; }
+      .cvx-mobile { display:flex; gap:10px; padding:0 20px 18px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; }
+      .cvx-mobile::-webkit-scrollbar { display:none; }
+      .cvx-mobile-card { --card:#809681; --contrast:#111; position:relative; flex:0 0 86vw; height:76vh; min-height:580px; overflow:hidden; background:var(--card); color:var(--contrast); scroll-snap-align:center; border-radius:2px; }
+      .cvx-mobile-card__image { position:absolute; inset:0 0 36%; }
+      .cvx-mobile-card__image img { width:100%; height:100%; object-fit:cover; }
+      .cvx-mobile-card__body { position:absolute; inset:64% 0 0; padding:12px; display:grid; grid-template-rows:auto 1fr auto; }
+      .cvx-mobile-card__meta { display:flex; justify-content:space-between; gap:12px; font-size:9px; text-transform:uppercase; }
+      .cvx-mobile-card h3 { align-self:center; justify-self:center; margin:0; font:600 clamp(50px,15vw,82px)/.8 "Barlow Condensed",Impact,sans-serif; text-transform:uppercase; white-space:nowrap; }
+      .cvx-mobile-card__footer { display:flex; justify-content:space-between; align-items:center; font-size:10px; }
+      .cvx-mobile-card__dot { width:32px; height:32px; border:1px solid currentColor; border-radius:50%; display:grid; place-items:center; }
+      .story__grid { grid-template-columns:1fr; }
+      .story__image { min-height:62vh; }
+      .story__copy h2 { font-size:clamp(68px,20vw,112px); }
+      .story__facts { gap:8px; }
+      .story__fact strong { font-size:42px; }
+      .editorial { grid-template-columns:1fr; }
+      .editorial__copy { min-height:78vh; }
+      .editorial__copy h2 { font-size:clamp(82px,25vw,136px); }
+      .editorial__media { min-height:75vh; }
+      .palette-section__head { display:block; }
+      .palette-section__head h2 { margin-bottom:32px; font-size:clamp(74px,22vw,120px); }
+      .palette-row { grid-template-columns:44px 1fr auto; min-height:90px; }
+      .palette-row strong { font-size:clamp(39px,12vw,64px); }
+      .campaign-quote { min-height:80vh; }
+      .campaign-quote blockquote { font-size:clamp(66px,20vw,112px); }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      * { scroll-behavior:auto!important; animation:none!important; transition:none!important; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="version-switch-v1" aria-label="Kampagnenversion wählen">
+    <a class="is-active" href="v1.html" aria-current="page">V1</a>
+    <a href="index.html">V2</a>
+  </nav>
+  <header class="demo-intro">
+    <div class="demo-intro__top"><span>GWM / Colour Campaign</span><span>Own the colour · 2026</span></div>
+    <h1>Own the<br>colour.</h1>
+    <div class="demo-intro__bottom">
+      <p>Farbe ist keine Ausstattung. Sie ist Haltung. Entdecke sechs Charaktere für alle, die nicht einfach nur ankommen wollen.</p>
+      <span class="demo-intro__scroll" aria-hidden="true">↓</span>
+    </div>
+    <div class="hero-cards" aria-hidden="true">
+      <div class="hero-card hero-card--main"><img src="https://images.unsplash.com/photo-1542362567-b07e54358753?w=1600&q=90&auto=format&fit=crop" alt=""><span class="hero-card__number">01</span></div>
+      <div class="hero-card hero-card--rose"><img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=900&q=88&auto=format&fit=crop" alt=""><span class="hero-card__number">02</span></div>
+      <div class="hero-card hero-card--sage"><img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=700&q=88&auto=format&fit=crop" alt=""><span class="hero-card__number">03</span></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="campaign-marquee" aria-hidden="true"><div class="campaign-marquee__track"><span>Colour is character ✦ Own the colour ✦ Made to be noticed ✦ </span><span>Colour is character ✦ Own the colour ✦ Made to be noticed ✦ </span></div></div>
+
+    <section class="campaign-manifesto">
+      <div class="campaign-manifesto__top"><span>01 / Manifesto</span><span>Beyond the ordinary</span></div>
+      <h2>Not made<br>to blend <em>in.</em></h2>
+      <div class="campaign-manifesto__foot">
+        <p>Was wäre, wenn Farbe nicht der letzte Klick im Konfigurator wäre – sondern der Anfang der ganzen Geschichte? Sechs Lackierungen. Sechs Stimmungen. Eine Entscheidung, die nur dir gehört.</p>
+        <div class="campaign-manifesto__swatches" aria-label="Farbpalette"><i style="--sw:#839A84"></i><i style="--sw:#D9D8D1"></i><i style="--sw:#1B1D20"></i><i style="--sw:#4766B2"></i><i style="--sw:#CF6A3E"></i><i style="--sw:#73787C"></i></div>
+      </div>
+    </section>
+
+    <section class="cvx-module" id="colour-cards" aria-label="Fahrzeugfarben als interaktive Karten">
+      <div class="cvx-shell">
+        <div class="cvx-intro">
+          <div class="cvx-intro__nav">
+            <span><i style="--dot:#e28a62"></i>Farben</span>
+            <span><i style="--dot:#839b84"></i>Material</span>
+            <span><i style="--dot:#b999a6"></i>Charakter</span>
+            <span><i style="--dot:#bbc5d3"></i>Preis</span>
+          </div>
+          <h2 class="cvx-intro__word">Colour<br>Cards</h2>
+          <div class="cvx-intro__copy">
+            <p>Sechs Lackierungen, inszeniert als eigenständige Karten. Scrolle, um den Stapel zu öffnen und jede Farbe im Detail zu entdecken.</p>
+            <span class="cvx-intro__count">01 / 06</span>
+          </div>
+        </div>
+
+        <div class="cvx-logo" aria-hidden="true">GWM</div>
+        <div class="cvx-menu"><span>Farben</span><i></i></div>
+        <div class="cvx-deck"></div>
+        <div class="cvx-progress" aria-hidden="true"><div class="cvx-progress__bar"></div></div>
+        <div class="cvx-instruction">Scroll to explore</div>
+        <div class="cvx-mobile" aria-label="Fahrzeugfarben horizontal durchblättern"></div>
+      </div>
+    </section>
+
+    <section class="story story--material">
+      <div class="story__eyebrow"><span>03 / Crafted by light</span><span>Colour technology</span></div>
+      <div class="story__grid">
+        <figure class="story__image"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1400&q=90&auto=format&fit=crop" alt="Detailaufnahme eines Fahrzeugs im Licht"></figure>
+        <div class="story__copy">
+          <h2>Light makes<br>it move.</h2>
+          <p>Jede Kontur verändert den Ton. Im Schatten tief und ruhig, in der Sonne voller Energie. Mehrschichtige Pigmente machen aus Lack eine Oberfläche, die niemals stillsteht.</p>
+          <div class="story__facts">
+            <div class="story__fact"><strong>3×</strong><span>Lackschichten</span></div>
+            <div class="story__fact"><strong>60°</strong><span>Glanzmessung</span></div>
+            <div class="story__fact"><strong>360°</strong><span>Farbwirkung</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="editorial">
+      <div class="editorial__copy">
+        <div class="story__eyebrow"><span>04 / Personality</span><span>Solar Orange</span></div>
+        <h2>Warm.<br>Wild.<br>Yours.</h2>
+        <p>Solar Orange wartet nicht auf Aufmerksamkeit. Es nimmt sie sich – direkt, warm und mit genau der richtigen Dosis Unvernunft.</p>
+      </div>
+      <div class="editorial__media">
+        <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1500&q=90&auto=format&fit=crop" alt="Sportliches Fahrzeug in warmer Lichtstimmung">
+        <span class="editorial__badge">Turn heads<br>daily</span>
+      </div>
+    </section>
+
+    <section class="palette-section">
+      <div class="palette-section__head">
+        <h2>Six ways<br>to be you.</h2>
+        <p>Fahre mit der Maus über die Farben. Keine davon ist neutral – und genau das ist der Punkt.</p>
+      </div>
+      <div class="palette-list">
+        <div class="palette-row" style="--row:#839A84;--row-contrast:#111"><span>01</span><strong>Sage Green</strong><i></i></div>
+        <div class="palette-row" style="--row:#D9D8D1;--row-contrast:#111"><span>02</span><strong>Moon White</strong><i></i></div>
+        <div class="palette-row" style="--row:#1B1D20;--row-contrast:#fff"><span>03</span><strong>Ink Black</strong><i></i></div>
+        <div class="palette-row" style="--row:#4766B2;--row-contrast:#fff"><span>04</span><strong>Electric Blue</strong><i></i></div>
+        <div class="palette-row" style="--row:#CF6A3E;--row-contrast:#111"><span>05</span><strong>Solar Orange</strong><i></i></div>
+        <div class="palette-row" style="--row:#73787C;--row-contrast:#fff"><span>06</span><strong>Titan Grey</strong><i></i></div>
+      </div>
+    </section>
+
+    <section class="campaign-quote">
+      <blockquote>“The road is grey.<br>You don't have to be.”</blockquote>
+      <footer>GWM · Own the colour campaign</footer>
+    </section>
+  </main>
+
+  <footer class="demo-outro">
+    <div class="demo-outro__top"><span>Your colour. Your statement.</span><span>GWM</span></div>
+    <h2>Ready to<br>stand out?</h2>
+    <p>Konfiguriere dein Fahrzeug und finde die Farbe, die nicht nur zu deinem Auto passt – sondern zu dir.</p>
+  </footer>
+
+  <script>
+  (function(){
+    'use strict';
+
+    var COLORS=[
+      {name:'Sage Green',short:'Sage',hex:'#839A84',contrast:'#11110F',price:'Serie',finish:'Metallic',character:'Ruhig. Souverän.',image:'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=1800&q=88&auto=format&fit=crop'},
+      {name:'Moon White',short:'Moon',hex:'#D9D8D1',contrast:'#11110F',price:'Serie',finish:'Uni-Lack',character:'Klar. Zeitlos.',image:'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1800&q=88&auto=format&fit=crop'},
+      {name:'Ink Black',short:'Ink',hex:'#1B1D20',contrast:'#F3F0E8',price:'+ 690 €',finish:'Metallic',character:'Tief. Präzise.',image:'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=1800&q=88&auto=format&fit=crop'},
+      {name:'Electric Blue',short:'Blue',hex:'#4766B2',contrast:'#F6F2E9',price:'+ 690 €',finish:'Metallic',character:'Kühl. Energiegeladen.',image:'https://images.unsplash.com/photo-1542362567-b07e54358753?w=1800&q=88&auto=format&fit=crop'},
+      {name:'Solar Orange',short:'Solar',hex:'#CF6A3E',contrast:'#17120F',price:'+ 990 €',finish:'Premium',character:'Warm. Direkt.',image:'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1800&q=88&auto=format&fit=crop'},
+      {name:'Titan Grey',short:'Titan',hex:'#73787C',contrast:'#F5F2EB',price:'+ 690 €',finish:'Metallic',character:'Technisch. Elegant.',image:'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=1800&q=88&auto=format&fit=crop'}
+    ];
+
+    var module=document.querySelector('.cvx-module');
+    var deck=module.querySelector('.cvx-deck');
+    var mobile=module.querySelector('.cvx-mobile');
+    var progressBar=module.querySelector('.cvx-progress__bar');
+    var count=module.querySelector('.cvx-intro__count');
+    var cards=[];
+    var frame=0;
+    var lastActive=-1;
+    var currentProgress=0;
+
+    function pad(n){return String(n).padStart(2,'0');}
+    function cardMarkup(c,i){
+      return '<article class="cvx-card" data-card="'+i+'" style="--card:'+c.hex+';--contrast:'+c.contrast+'" aria-label="'+c.name+'">'
+        +'<div class="cvx-card__image"><img src="'+c.image+'" alt="Fahrzeugansicht in '+c.name+'" loading="'+(i<2?'eager':'lazy')+'"></div>'
+        +'<div class="cvx-card__body">'
+        +'<div class="cvx-card__meta"><span class="cvx-card__price">'+c.price+'</span><span>'+c.finish+'</span><span>'+c.character+'</span></div>'
+        +'<h3 class="cvx-card__title">'+c.name+'</h3>'
+        +'<div class="cvx-card__footer"><span class="cvx-card__index">'+pad(i+1)+'</span><button class="cvx-card__next" type="button" data-next="'+i+'" aria-label="Nächste Farbe">↗</button></div>'
+        +'<span class="cvx-tab">'+c.short+'</span></div></article>';
+    }
+    function mobileMarkup(c,i){
+      return '<article class="cvx-mobile-card" style="--card:'+c.hex+';--contrast:'+c.contrast+'">'
+        +'<div class="cvx-mobile-card__image"><img src="'+c.image+'" alt="Fahrzeugansicht in '+c.name+'" loading="lazy"></div>'
+        +'<div class="cvx-mobile-card__body"><div class="cvx-mobile-card__meta"><span>'+c.price+'</span><span>'+c.finish+'</span><span>'+c.character+'</span></div>'
+        +'<h3>'+c.name+'</h3><div class="cvx-mobile-card__footer"><span>'+pad(i+1)+' / '+pad(COLORS.length)+'</span><span class="cvx-mobile-card__dot">→</span></div></div></article>';
+    }
+    function build(){
+      deck.innerHTML=COLORS.map(cardMarkup).join('');
+      mobile.innerHTML=COLORS.map(mobileMarkup).join('');
+      cards=Array.prototype.slice.call(deck.querySelectorAll('.cvx-card'));
+    }
+
+    function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+    function mix(a,b,t){return a+(b-a)*t;}
+    function ease(t){return 1-Math.pow(1-clamp(t,0,1),3);}
+
+    function stateX(cardIndex,state){
+      var vw=window.innerWidth;
+      var rail=vw<1100?58:Math.max(72,vw*.07);
+      var width=vw<1100?vw*.72:vw*.67;
+      if(state===0){
+        if(cardIndex===0)return vw*.5;
+        if(cardIndex===1)return vw*.87;
+        return vw*.96+(cardIndex-2)*14;
+      }
+      var active=state-1;
+      if(cardIndex<active)return -width+rail+(cardIndex-active+1)*5;
+      if(cardIndex===active)return rail;
+      if(cardIndex===active+1)return rail+width;
+      return vw*.94+(cardIndex-active-2)*14;
+    }
+
+    function getProgress(){
+      var rect=module.getBoundingClientRect();
+      var range=Math.max(1,module.offsetHeight-window.innerHeight);
+      return clamp(-rect.top/range,0,1);
+    }
+    function render(){
+      frame=0;
+      var raw=getProgress();
+      currentProgress+=(raw-currentProgress)*.26;
+      var total=COLORS.length;
+      var position=raw*total;
+      var from=Math.min(total-1,Math.floor(position));
+      var local=ease(position-from);
+      var stateA=from;
+      var stateB=Math.min(total,from+1);
+      cards.forEach(function(card,i){
+        var x=mix(stateX(i,stateA),stateX(i,stateB),local);
+        card.style.transform='translate3d('+x.toFixed(2)+'px,0,0)';
+        card.classList.toggle('is-peek',x>window.innerWidth*.78);
+      });
+      var active=Math.min(total-1,Math.max(0,Math.floor(position)));
+      cards.forEach(function(card,i){
+        card.classList.toggle('is-current',i===active);
+      });
+      if(active!==lastActive){
+        lastActive=active;
+        count.textContent=pad(active+1)+' / '+pad(total);
+      }
+      progressBar.style.height=(raw*100).toFixed(2)+'%';
+      if(Math.abs(raw-currentProgress)>.001)frame=requestAnimationFrame(render);
+    }
+    function requestRender(){if(!frame)frame=requestAnimationFrame(render);}
+    function goToCard(index){
+      var top=window.scrollY+module.getBoundingClientRect().top;
+      var range=module.offsetHeight-window.innerHeight;
+      var target=top+range*((index+1)/COLORS.length);
+      window.scrollTo({top:target,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+    }
+
+    deck.addEventListener('click',function(e){
+      var button=e.target.closest('[data-next]');
+      if(!button)return;
+      var index=Number(button.dataset.next);
+      goToCard((index+1)%COLORS.length);
+    });
+    window.addEventListener('scroll',requestRender,{passive:true});
+    window.addEventListener('resize',requestRender,{passive:true});
+    window.addEventListener('keydown',function(e){
+      var rect=module.getBoundingClientRect();
+      if(rect.top>0||rect.bottom<window.innerHeight)return;
+      if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();goToCard(Math.min(COLORS.length-1,lastActive+1));}
+      if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();goToCard(Math.max(0,lastActive-1));}
+    });
+
+    build();
+    currentProgress=getProgress();
+    render();
+  })();
+  </script>
+</body>
+</html>
