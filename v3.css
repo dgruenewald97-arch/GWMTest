@@ -86,17 +86,16 @@ a { color:inherit; }
 .drive-top strong { justify-self:center; }
 .drive-top span:last-child { justify-self:end; }
 .drive-panel { position:absolute; inset:0; overflow:hidden; }
-.drive-panel--turbo { z-index:1; }
-.drive-panel--hybrid { z-index:2; pointer-events:auto; }
+.drive-panel--turbo { z-index:1; background:var(--sage); }
+.drive-panel--hybrid { z-index:2; background:var(--acid); clip-path:polygon(0 0,-5% 0,0 100%,0 100%); }
 .drive-word { position:absolute; z-index:0; inset:9vh 0 auto 1vw; height:52vh; overflow:hidden; color:rgba(14,14,13,.08); font:900 clamp(15rem,35vw,36rem)/.72 var(--display); letter-spacing:-.08em; white-space:nowrap; }
 .drive-car { position:absolute; z-index:2; left:26%; right:3%; top:13%; width:71%; height:58%; object-fit:contain; filter:drop-shadow(0 28px 22px rgba(0,0,0,.25)); }
-.drive-panel--hybrid .drive-car,.drive-panel--hybrid .drive-word,.drive-panel--hybrid .drive-copy { opacity:0; visibility:hidden; }
 .drive-mode,.drive-count { position:relative; height:1em; overflow:hidden; font-style:normal; }
 .drive-mode { min-width:72px; }.drive-count { min-width:50px; }
 .drive-mode i,.drive-count i { position:absolute; inset:0; font-style:normal; white-space:nowrap; }
 .drive-mode i:last-child,.drive-count i:last-child { transform:translateY(120%); }
 .drive-copy { position:absolute; z-index:3; left:2vw; bottom:7vh; width:min(420px,30vw); }
-.drive-copy--hybrid { transform:translateY(24px); }
+.drive-copy--hybrid { transform:none; }
 .drive-copy h2 { margin:0 0 1.2rem; font:800 clamp(5.5rem,9vw,10rem)/.68 var(--display); letter-spacing:-.05em; text-transform:uppercase; }
 .drive-copy dl { display:grid; grid-template-columns:repeat(3,1fr); margin:0 0 .9rem; border-top:1px solid var(--ink); }
 .drive-copy dl div { padding:.7rem .4rem .7rem 0; border-bottom:1px solid var(--ink); }
