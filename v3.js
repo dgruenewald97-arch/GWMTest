@@ -59,16 +59,30 @@
       deck.setAttribute("aria-label", `${deck.dataset.swipeLabel || "Szenen"} - horizontal wischen`);
 
       let deckFrame = 0;
+      let previousScroll = deck.scrollLeft;
+      let velocity = 0;
       const updateDeck = () => {
         deckFrame = 0;
         const deckBox = deck.getBoundingClientRect();
         const center = deckBox.left + deckBox.width / 2;
+        const delta = deck.scrollLeft - previousScroll;
+        previousScroll = deck.scrollLeft;
+        velocity += (delta - velocity) * .34;
         let active = cards[0];
         let distance = Infinity;
 
         cards.forEach((card) => {
           const box = card.getBoundingClientRect();
-          const nextDistance = Math.abs(box.left + box.width / 2 - center);
+          const signedDistance = (box.left + box.width / 2 - center) / Math.max(1, deckBox.width);
+          const scenePosition = Math.max(-1.25, Math.min(1.25, signedDistance));
+          const sceneDepth = Math.min(1, Math.abs(scenePosition));
+          const nextDistance = Math.abs(signedDistance);
+          const sceneLean = Math.max(-4.5, Math.min(4.5, velocity * .24));
+          card.style.setProperty("--scene-image-x", `${scenePosition * -26}px`);
+          card.style.setProperty("--scene-text-x", `${scenePosition * 34}px`);
+          card.style.setProperty("--scene-scale", `${1.075 - sceneDepth * .035}`);
+          card.style.setProperty("--scene-lean", `${sceneLean}deg`);
+          card.style.setProperty("--scene-edge", `${1 - sceneDepth * .5}`);
           if (nextDistance < distance) {
             distance = nextDistance;
             active = card;
@@ -85,6 +99,8 @@
           const count = document.querySelector("[data-interior-count]");
           if (count) count.textContent = `${String(activeIndex).padStart(2, "0")} / 03`;
         }
+        velocity *= .78;
+        if (Math.abs(velocity) > .06) deckFrame = requestAnimationFrame(updateDeck);
       };
       const requestDeck = () => {
         if (!deckFrame) deckFrame = requestAnimationFrame(updateDeck);
@@ -93,6 +109,7 @@
       cards[0].classList.add("is-active");
       deck.addEventListener("scroll", requestDeck, { passive: true });
       window.addEventListener("resize", requestDeck, { passive: true });
+      updateDeck();
     });
   }
 
@@ -169,6 +186,25 @@
     ease: "none",
     scrollTrigger: { trigger: ".manifesto", start: "top 70%", end: "bottom 55%", scrub: .2 }
   });
+
+  if (compact) {
+    gsap.utils.toArray(".design-deck, .drive-deck, .interior-deck, .chromatic-track").forEach((deck) => {
+      gsap.fromTo(deck, { clipPath: "inset(0 0 0 16%)" }, {
+        clipPath: "inset(0 0 0 0%)",
+        ease: "none",
+        scrollTrigger: { trigger: deck, start: "top 94%", end: "top 58%", scrub: .18 }
+      });
+    });
+    gsap.utils.toArray(".design-stage-meta, .drive-top, .interior-top, .chromatic-top").forEach((headline) => {
+      gsap.fromTo(headline, { xPercent: -12, autoAlpha: .35 }, {
+        xPercent: 0,
+        autoAlpha: 1,
+        duration: .5,
+        ease: "power3.out",
+        scrollTrigger: { trigger: headline, start: "top 92%", once: true }
+      });
+    });
+  }
 
   if (!compact) {
     const designShots = gsap.utils.toArray(".reel-shot");
