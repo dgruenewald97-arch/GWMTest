@@ -134,6 +134,9 @@
 
   if (!hasGsap) {
     document.querySelector(".page-loader")?.remove();
+    document.querySelectorAll(".mask-line > span").forEach((line) => {
+      line.style.transform = "none";
+    });
     return;
   }
 

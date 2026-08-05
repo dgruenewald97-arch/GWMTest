@@ -12,7 +12,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); overflow-x: hidden; }
 body.is-loading { overflow: hidden; }
 img { display: block; width: 100%; }
@@ -156,7 +156,7 @@ sup { font-size: .42em; vertical-align: top; }
 .interior-card img { height: 100%; object-fit: cover; }
 .interior-card figcaption { position: absolute; left: .7rem; bottom: .7rem; padding: .45rem .7rem; background: var(--acid); border: 1px solid var(--ink); font: 700 .7rem/1 var(--body); text-transform: uppercase; }
 .interior-card--main { left: 6%; top: 8%; width: 74%; height: 52%; transform: rotate(-2deg); }
-.interior-card--screen { right: 1%; top: 41%; width: 42%; height: 32%; transform: rﬂ}m¢Gß≤⁄Óù∆≠y–{ border-right: 1px solid var(--line); }
+.interior-card--screen { right: 1%; top: 41%; width: 42%; height:ﬂ~Ì¢Gß≤⁄Óù∆≠y–{ border-right: 1px solid var(--line); }
 .dimension-grid div:nth-child(even) { padding-left: 1rem; }
 .dimension-grid dt { font-size: .62rem; text-transform: uppercase; letter-spacing: .08em; }
 .dimension-grid dd { margin: 0; font: 800 clamp(1.8rem,3vw,3.4rem)/1 var(--display); }
