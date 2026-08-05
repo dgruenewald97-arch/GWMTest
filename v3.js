@@ -2,7 +2,7 @@
   "use strict";
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const compact = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+  const compact = window.matchMedia("(max-width: 900px)").matches;
   const nav = document.querySelector("[data-nav]");
   const mobileCta = document.querySelector(".mobile-cta");
   const offerSection = document.querySelector(".offer");
@@ -54,49 +54,40 @@
     stacks.forEach((stack) => {
       stack.setAttribute("role", "region");
       stack.setAttribute("aria-label", `${stack.dataset.stackLabel || "Szenen"} - vertikale Scroll-Erzaehlung`);
+      const scenes = Array.from(stack.children);
+      const entries = scenes.map((scene, index) => {
+        const shell = document.createElement("div");
+        shell.className = "mobile-scene-shell";
+        shell.dataset.sceneIndex = String(index);
+        stack.insertBefore(shell, scene);
+        shell.append(scene);
+        return { shell, scene };
+      });
+      stack._mobileEntries = entries;
     });
 
     let stackFrame = 0;
-    let previousY = window.scrollY;
-    let scrollVelocity = 0;
     const updateStacks = () => {
       stackFrame = 0;
-      const currentY = window.scrollY;
-      scrollVelocity += ((currentY - previousY) - scrollVelocity) * .2;
-      previousY = currentY;
-      const stickyLine = 64;
-
       stacks.forEach((stack) => {
-        const scenes = Array.from(stack.children);
-        let active = scenes[0];
-        let nearest = Infinity;
-
-        scenes.forEach((scene) => {
-          const box = scene.getBoundingClientRect();
-          const distance = Math.abs(box.top - stickyLine);
-          const travel = Math.max(-1, Math.min(1, (box.top - stickyLine) / Math.max(1, innerHeight)));
-          scene.style.setProperty("--scene-y", `${travel * -18}px`);
-          scene.style.setProperty("--scene-copy-y", `${travel * 28}px`);
-          scene.style.setProperty("--scene-tilt", `${Math.max(-1.2, Math.min(1.2, scrollVelocity * .018))}deg`);
-          if (distance < nearest) {
-            nearest = distance;
-            active = scene;
-          }
+        const entries = stack._mobileEntries || [];
+        if (!entries.length) return;
+        let activeIndex = 0;
+        entries.forEach(({ shell }, index) => {
+          const box = shell.getBoundingClientRect();
+          if (box.top <= innerHeight * .46 && box.bottom > innerHeight * .46) activeIndex = index;
         });
-
-        scenes.forEach((scene) => scene.classList.toggle("is-active", scene === active));
-        const activeIndex = scenes.indexOf(active) + 1;
+        entries.forEach(({ scene }, index) => scene.classList.toggle("is-active", index === activeIndex));
+        const visibleIndex = activeIndex + 1;
         if (stack.classList.contains("design-deck")) {
           const count = document.querySelector("[data-design-count]");
-          if (count) count.textContent = `${String(activeIndex).padStart(2, "0")} / 04`;
+          if (count) count.textContent = `${String(visibleIndex).padStart(2, "0")} / 04`;
         }
         if (stack.classList.contains("interior-deck")) {
           const count = document.querySelector("[data-interior-count]");
-          if (count) count.textContent = `${String(activeIndex).padStart(2, "0")} / 03`;
+          if (count) count.textContent = `${String(visibleIndex).padStart(2, "0")} / 03`;
         }
       });
-      scrollVelocity *= .82;
-      if (Math.abs(scrollVelocity) > .08) stackFrame = requestAnimationFrame(updateStacks);
     };
     const requestStacks = () => {
       if (!stackFrame) stackFrame = requestAnimationFrame(updateStacks);
@@ -179,25 +170,6 @@
     ease: "none",
     scrollTrigger: { trigger: ".manifesto", start: "top 70%", end: "bottom 55%", scrub: .2 }
   });
-
-  if (compact) {
-    gsap.utils.toArray(".mobile-stack > *").forEach((scene) => {
-      gsap.fromTo(scene, { clipPath: "inset(8% 0 0 0)" }, {
-        clipPath: "inset(0% 0 0 0)",
-        ease: "none",
-        scrollTrigger: { trigger: scene, start: "top 96%", end: "top 66%", scrub: .18 }
-      });
-    });
-    gsap.utils.toArray(".design-stage-meta, .drive-top, .interior-top, .chromatic-top").forEach((headline) => {
-      gsap.fromTo(headline, { xPercent: -12, autoAlpha: .35 }, {
-        xPercent: 0,
-        autoAlpha: 1,
-        duration: .5,
-        ease: "power3.out",
-        scrollTrigger: { trigger: headline, start: "top 92%", once: true }
-      });
-    });
-  }
 
   if (!compact) {
     const designShots = gsap.utils.toArray(".reel-shot");
