@@ -175,6 +175,7 @@
 
   const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
   intro.set("body", { overflow: "hidden" })
+    .set(".mask-line > span", { y: 0, yPercent: 110, rotate: 2 })
     .fromTo(".page-loader i", { scaleX: 0 }, { scaleX: 1, duration: .38, ease: "power2.inOut" })
     .to(".page-loader", { yPercent: -100, duration: .58, ease: "power4.inOut" }, "+=.08")
     .set("body", { overflow: "" })
