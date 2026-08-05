@@ -50,67 +50,60 @@
   renderChrome();
 
   if (compact) {
-    document.querySelectorAll("[data-swipe-deck]").forEach((deck) => {
-      const cards = Array.from(deck.children);
-      if (!cards.length) return;
+    const stacks = Array.from(document.querySelectorAll("[data-mobile-stack]"));
+    stacks.forEach((stack) => {
+      stack.setAttribute("role", "region");
+      stack.setAttribute("aria-label", `${stack.dataset.stackLabel || "Szenen"} - vertikale Scroll-Erzaehlung`);
+    });
 
-      deck.tabIndex = 0;
-      deck.setAttribute("role", "region");
-      deck.setAttribute("aria-label", `${deck.dataset.swipeLabel || "Szenen"} - horizontal wischen`);
+    let stackFrame = 0;
+    let previousY = window.scrollY;
+    let scrollVelocity = 0;
+    const updateStacks = () => {
+      stackFrame = 0;
+      const currentY = window.scrollY;
+      scrollVelocity += ((currentY - previousY) - scrollVelocity) * .2;
+      previousY = currentY;
+      const stickyLine = 64;
 
-      let deckFrame = 0;
-      let previousScroll = deck.scrollLeft;
-      let velocity = 0;
-      const updateDeck = () => {
-        deckFrame = 0;
-        const deckBox = deck.getBoundingClientRect();
-        const center = deckBox.left + deckBox.width / 2;
-        const delta = deck.scrollLeft - previousScroll;
-        previousScroll = deck.scrollLeft;
-        velocity += (delta - velocity) * .34;
-        let active = cards[0];
-        let distance = Infinity;
+      stacks.forEach((stack) => {
+        const scenes = Array.from(stack.children);
+        let active = scenes[0];
+        let nearest = Infinity;
 
-        cards.forEach((card) => {
-          const box = card.getBoundingClientRect();
-          const signedDistance = (box.left + box.width / 2 - center) / Math.max(1, deckBox.width);
-          const scenePosition = Math.max(-1.25, Math.min(1.25, signedDistance));
-          const sceneDepth = Math.min(1, Math.abs(scenePosition));
-          const nextDistance = Math.abs(signedDistance);
-          const sceneLean = Math.max(-4.5, Math.min(4.5, velocity * .24));
-          card.style.setProperty("--scene-image-x", `${scenePosition * -26}px`);
-          card.style.setProperty("--scene-text-x", `${scenePosition * 34}px`);
-          card.style.setProperty("--scene-scale", `${1.075 - sceneDepth * .035}`);
-          card.style.setProperty("--scene-lean", `${sceneLean}deg`);
-          card.style.setProperty("--scene-edge", `${1 - sceneDepth * .5}`);
-          if (nextDistance < distance) {
-            distance = nextDistance;
-            active = card;
+        scenes.forEach((scene) => {
+          const box = scene.getBoundingClientRect();
+          const distance = Math.abs(box.top - stickyLine);
+          const travel = Math.max(-1, Math.min(1, (box.top - stickyLine) / Math.max(1, innerHeight)));
+          scene.style.setProperty("--scene-y", `${travel * -18}px`);
+          scene.style.setProperty("--scene-copy-y", `${travel * 28}px`);
+          scene.style.setProperty("--scene-tilt", `${Math.max(-1.2, Math.min(1.2, scrollVelocity * .018))}deg`);
+          if (distance < nearest) {
+            nearest = distance;
+            active = scene;
           }
         });
 
-        cards.forEach((card) => card.classList.toggle("is-active", card === active));
-        const activeIndex = cards.indexOf(active) + 1;
-        if (deck.classList.contains("design-deck")) {
+        scenes.forEach((scene) => scene.classList.toggle("is-active", scene === active));
+        const activeIndex = scenes.indexOf(active) + 1;
+        if (stack.classList.contains("design-deck")) {
           const count = document.querySelector("[data-design-count]");
           if (count) count.textContent = `${String(activeIndex).padStart(2, "0")} / 04`;
         }
-        if (deck.classList.contains("interior-deck")) {
+        if (stack.classList.contains("interior-deck")) {
           const count = document.querySelector("[data-interior-count]");
           if (count) count.textContent = `${String(activeIndex).padStart(2, "0")} / 03`;
         }
-        velocity *= .78;
-        if (Math.abs(velocity) > .06) deckFrame = requestAnimationFrame(updateDeck);
-      };
-      const requestDeck = () => {
-        if (!deckFrame) deckFrame = requestAnimationFrame(updateDeck);
-      };
-
-      cards[0].classList.add("is-active");
-      deck.addEventListener("scroll", requestDeck, { passive: true });
-      window.addEventListener("resize", requestDeck, { passive: true });
-      updateDeck();
-    });
+      });
+      scrollVelocity *= .82;
+      if (Math.abs(scrollVelocity) > .08) stackFrame = requestAnimationFrame(updateStacks);
+    };
+    const requestStacks = () => {
+      if (!stackFrame) stackFrame = requestAnimationFrame(updateStacks);
+    };
+    window.addEventListener("scroll", requestStacks, { passive: true });
+    window.addEventListener("resize", requestStacks, { passive: true });
+    updateStacks();
   }
 
   if (!window.gsap || !window.ScrollTrigger || reduce) return;
@@ -188,11 +181,11 @@
   });
 
   if (compact) {
-    gsap.utils.toArray(".design-deck, .drive-deck, .interior-deck, .chromatic-track").forEach((deck) => {
-      gsap.fromTo(deck, { clipPath: "inset(0 0 0 16%)" }, {
-        clipPath: "inset(0 0 0 0%)",
+    gsap.utils.toArray(".mobile-stack > *").forEach((scene) => {
+      gsap.fromTo(scene, { clipPath: "inset(8% 0 0 0)" }, {
+        clipPath: "inset(0% 0 0 0)",
         ease: "none",
-        scrollTrigger: { trigger: deck, start: "top 94%", end: "top 58%", scrub: .18 }
+        scrollTrigger: { trigger: scene, start: "top 96%", end: "top 66%", scrub: .18 }
       });
     });
     gsap.utils.toArray(".design-stage-meta, .drive-top, .interior-top, .chromatic-top").forEach((headline) => {
