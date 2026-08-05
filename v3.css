@@ -71,9 +71,9 @@ a { color:inherit; }
 .reel-shot { position:relative; display:grid; grid-template-columns:minmax(150px,.32fr) 1fr; gap:2vw; width:82vw; margin:0 0 22vh; }
 .reel-shot > div { grid-column:2; height:78vh; overflow:hidden; background:#ccc; }
 .reel-shot img { height:112%; object-fit:cover; transform:translateY(-6%); }
-.reel-shot figcaption { grid-row:1; grid-column:1; align-self:end; padding-bottom:.2rem; }
+.reel-shot figcaption { position:relative; z-index:2; grid-row:1; grid-column:1; align-self:end; padding-bottom:.2rem; }
 .reel-shot figcaption span { display:block; margin-bottom:1.1rem; font-size:.53rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
-.reel-shot figcaption strong { font:800 clamp(2.8rem,4.7vw,5.4rem)/.78 var(--display); letter-spacing:-.045em; text-transform:uppercase; }
+.reel-shot figcaption strong { display:block; width:46vw; color:#fff; mix-blend-mode:difference; font:800 clamp(2.8rem,4.7vw,5.4rem)/.78 var(--display); letter-spacing:-.045em; text-transform:uppercase; }
 .reel-shot--wheel { width:70vw; margin-left:auto; grid-template-columns:1fr minmax(150px,.34fr); }
 .reel-shot--wheel > div { grid-column:1; }
 .reel-shot--wheel figcaption { grid-column:2; }
@@ -96,6 +96,7 @@ a { color:inherit; }
 .drive-car { position:absolute; inset:0; height:100%; object-fit:contain; filter:drop-shadow(0 28px 22px rgba(0,0,0,.25)); }
 .drive-car--hybrid { z-index:2; opacity:1; clip-path:inset(0 100% 0 0); transform:translateX(10%) scale(.97); }
 .drive-mode,.drive-count { position:relative; height:1em; overflow:hidden; font-style:normal; }
+.drive-mode { min-width:72px; }.drive-count { min-width:50px; }
 .drive-mode i,.drive-count i { position:absolute; inset:0; font-style:normal; white-space:nowrap; }
 .drive-mode i:last-child,.drive-count i:last-child { transform:translateY(120%); }
 .drive-copy { position:absolute; z-index:3; left:2vw; bottom:7vh; width:min(420px,30vw); }
@@ -189,7 +190,7 @@ footer > a { align-self:start; text-decoration:none; font-size:.58rem; text-tran
   .reel-shot,.reel-shot--wheel,.reel-shot--side { display:block; width:100%; margin:0 0 13vh; }
   .reel-shot > div,.reel-shot--side > div { height:68vh; }
   .reel-shot figcaption { display:grid; grid-template-columns:1fr 2fr; gap:1rem; padding-top:.8rem; }
-  .reel-shot figcaption strong { font-size:8vw; }
+  .reel-shot figcaption strong { width:100%; font-size:8vw; }
   .award-stamp { grid-template-columns:1fr 1fr; }
   .award-stamp b { grid-column:1/-1; justify-self:end; font-size:28vw; }
   .drive-stage { height:auto; }

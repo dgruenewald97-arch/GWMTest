@@ -81,9 +81,9 @@
 
   const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
   intro
-    .fromTo(".hero h1 > span", { yPercent: 118, rotate: 2 }, { yPercent: 0, rotate: 0, duration: .72, stagger: .04 })
+    .fromTo(".hero h1 > span", { yPercent: 118, rotation: 2 }, { yPercent: 0, rotation: 0, duration: .72, stagger: .04 })
     .from(".hero-topline > *, .hero-bottom > *", { y: 14, autoAlpha: 0, duration: .38, stagger: .035 }, "-=.42")
-    .from(".hero-sign", { scale: .15, autoAlpha: 0, rotate: -110, duration: .58 }, "-=.34");
+    .from(".hero-sign", { scale: .15, autoAlpha: 0, rotation: -110, duration: .58 }, "-=.34");
 
   gsap.to(".hero h1 > span:nth-child(odd)", {
     yPercent: -13,
@@ -101,7 +101,7 @@
     const sign = document.querySelector(".hero-sign");
     const xTo = sign && gsap.quickTo(sign, "x", { duration: .24, ease: "power3.out" });
     const yTo = sign && gsap.quickTo(sign, "y", { duration: .24, ease: "power3.out" });
-    const rotateTo = sign && gsap.quickTo(sign, "rotate", { duration: .3, ease: "power3.out" });
+    const rotateTo = sign && gsap.quickTo(sign, "rotation", { duration: .3, ease: "power3.out" });
     hero?.addEventListener("pointermove", (event) => {
       const x = event.clientX / innerWidth - .5;
       const y = event.clientY / innerHeight - .5;
@@ -136,7 +136,7 @@
     scrollTrigger: { trigger: ".manifesto", start: "top bottom", end: "center center", scrub: .22 }
   });
   gsap.to(".manifesto-mark", {
-    rotate: 145,
+    rotation: 145,
     ease: "none",
     scrollTrigger: { trigger: ".manifesto", start: "top bottom", end: "bottom top", scrub: .2 }
   });
@@ -178,7 +178,7 @@
     driveTimeline
       .to(".drive-sticky", { backgroundColor: "#d8ff36", duration: 1 }, 0)
       .to(".drive-progress i", { scaleX: 1, duration: 1 }, 0)
-      .to(".drive-car--turbo", { xPercent: -2, scale: .985, duration: 1 }, 0)
+      .to(".drive-car--turbo", { xPercent: -5, scale: .985, clipPath: "inset(0 0 0 100%)", duration: .66 }, .17)
       .to(".drive-car--hybrid", { clipPath: "inset(0 0% 0 0)", xPercent: 0, scale: 1, duration: .66 }, .17)
       .to(".drive-copy--turbo", { clipPath: "inset(0 0 100% 0)", y: -24, autoAlpha: 0, duration: .28 }, .28)
       .to(".drive-copy--hybrid", { y: 0, autoAlpha: 1, duration: .34 }, .46)
@@ -228,7 +228,7 @@
       const at = index;
       colorTimeline
         .to(scene, { clipPath: "inset(0 0% 0 0)", duration: .78, ease: "power2.inOut" }, at)
-        .fromTo(scene.querySelector("img"), { xPercent: 18, scale: .92, rotate: 1.5 }, { xPercent: 0, scale: 1, rotate: 0, duration: .82, ease: "power2.out" }, at)
+        .fromTo(scene.querySelector("img"), { xPercent: 18, scale: .92, rotation: 1.5 }, { xPercent: 0, scale: 1, rotation: 0, duration: .82, ease: "power2.out" }, at)
         .fromTo(scene.querySelector("h2"), { xPercent: -10 }, { xPercent: 0, duration: .72, ease: "power2.out" }, at + .06);
     });
   }
@@ -241,7 +241,7 @@
     scrollTrigger: { trigger: ".offer h2", start: "top 88%", once: true }
   });
   gsap.to(".circle-cta", {
-    rotate: 9,
+    rotation: 9,
     ease: "none",
     scrollTrigger: { trigger: ".offer", start: "top bottom", end: "bottom top", scrub: .22 }
   });
