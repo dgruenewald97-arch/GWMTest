@@ -9,10 +9,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="v3.css?v=20260805-2">
+  <link rel="stylesheet" href="v3.css?v=20260805-3">
 </head>
 <body>
   <a class="skip" href="#content">Zum Inhalt springen</a>
+  <div class="page-progress" aria-hidden="true"><i></i></div>
+  <div class="chapter-hud" aria-hidden="true"><span data-chapter-index>00</span><span data-chapter-name>Intro</span></div>
 
   <header class="nav" data-nav>
     <a class="nav-brand" href="#top"><span>GWM</span><strong>ORA 5</strong></a>
@@ -54,16 +56,16 @@
       <p class="manifesto-copy">Retro-Details. Klare Proportionen. Eine Silhouette, die aus jedem Winkel anders wirkt — und trotzdem sofort ORA ist.</p>
     </section>
 
-    <section class="image-grid" aria-label="Design-Details">
-      <figure class="tile tile--wide"><img src="assets/ora5/design-front.jpg" alt="Frontansicht und Lichtsignatur des ORA 5" loading="lazy"><figcaption>Lichtsignatur</figcaption></figure>
-      <figure class="tile"><img src="assets/ora5/design-wheel.jpg" alt="Raddesign des ORA 5" loading="lazy"><figcaption>Details</figcaption></figure>
-      <figure class="tile"><img src="assets/ora5/design-side.jpg" alt="Seitenlinie des ORA 5" loading="lazy"><figcaption>Silhouette</figcaption></figure>
-      <div class="grid-note"><span>Design of the Year</span><strong>2025</strong><p>London Design Awards</p></div>
+    <section class="design-reel" aria-label="Design-Details">
+      <figure class="reel-shot reel-shot--front"><div><img src="assets/ora5/design-front.jpg" alt="Frontansicht und Lichtsignatur des ORA 5" loading="lazy"></div><figcaption><span>01 / Lichtsignatur</span><strong>Ein Blick.<br>Unverwechselbar.</strong></figcaption></figure>
+      <figure class="reel-shot reel-shot--wheel"><div><img src="assets/ora5/design-wheel.jpg" alt="Raddesign des ORA 5" loading="lazy"></div><figcaption><span>02 / Detail</span><strong>Designed down<br>to the last line.</strong></figcaption></figure>
+      <figure class="reel-shot reel-shot--side"><div><img src="assets/ora5/design-side.jpg" alt="Seitenlinie des ORA 5" loading="lazy"></div><figcaption><span>03 / Silhouette</span><strong>Haltung aus<br>jedem Winkel.</strong></figcaption></figure>
+      <div class="award-stamp"><span>London Design Awards</span><strong>Design of<br>the Year</strong><b>2025</b></div>
     </section>
 
     <section class="drive-stage" id="drive" aria-label="Turbo und Hybrid im Vergleich">
       <div class="drive-sticky">
-        <div class="drive-top"><span>02 / Choose your drive</span><strong data-drive-label>Turbo</strong><span data-drive-count>01 / 02</span></div>
+        <div class="drive-top"><span>02 / Choose your drive</span><strong class="drive-mode"><i>Turbo</i><i>Hybrid</i></strong><span class="drive-count"><i>01 / 02</i><i>02 / 02</i></span></div>
         <div class="drive-word" aria-hidden="true"><span>TURBO</span><span>HYBRID</span></div>
 
         <div class="drive-vehicle">
@@ -112,7 +114,7 @@
     </section>
 
     <section class="chromatic" id="colors" aria-label="Sieben ORA 5 Farben">
-      <div class="chromatic-track" data-color-rail>
+      <div class="chromatic-track">
         <article class="color-scene" style="--tone:#e9e9e5"><span>01 / 07</span><img src="assets/ora5/dover-white.png" alt="ORA 5 Dover White" loading="lazy"><h2>Dover<br>White</h2><p>Serienfarbe</p></article>
         <article class="color-scene" style="--tone:#111215;--text:#f5f2e9"><span>02 / 07</span><img src="assets/ora5/night-black.png" alt="ORA 5 Night Black" loading="lazy"><h2>Night<br>Black</h2><p>750 €</p></article>
         <article class="color-scene" style="--tone:#a2a6a4"><span>03 / 07</span><img src="assets/ora5/glacier-grey.png" alt="ORA 5 Glacier Grey" loading="lazy"><h2>Glacier<br>Grey</h2><p>750 €</p></article>
@@ -149,6 +151,6 @@
   <script src="assets/vendor/lenis-1.3.26.js"></script>
   <script src="assets/vendor/gsap-3.15.0.js"></script>
   <script src="assets/vendor/scrolltrigger-3.15.0.js"></script>
-  <script src="v3.js?v=20260805-2"></script>
+  <script src="v3.js?v=20260805-3"></script>
 </body>
 </html>
