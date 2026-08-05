@@ -47,6 +47,53 @@
   window.addEventListener("resize", requestChrome, { passive: true });
   renderChrome();
 
+  if (compact) {
+    document.querySelectorAll("[data-swipe-deck]").forEach((deck) => {
+      const cards = Array.from(deck.children);
+      if (!cards.length) return;
+
+      deck.tabIndex = 0;
+      deck.setAttribute("role", "region");
+      deck.setAttribute("aria-label", `${deck.dataset.swipeLabel || "Karten"} - horizontal wischen`);
+
+      let deckFrame = 0;
+      const updateDeck = () => {
+        deckFrame = 0;
+        const deckBox = deck.getBoundingClientRect();
+        const center = deckBox.left + deckBox.width / 2;
+        let active = cards[0];
+        let distance = Infinity;
+
+        cards.forEach((card) => {
+          const box = card.getBoundingClientRect();
+          const nextDistance = Math.abs(box.left + box.width / 2 - center);
+          if (nextDistance < distance) {
+            distance = nextDistance;
+            active = card;
+          }
+        });
+
+        cards.forEach((card) => card.classList.toggle("is-active", card === active));
+        const activeIndex = cards.indexOf(active) + 1;
+        if (deck.classList.contains("design-deck")) {
+          const count = document.querySelector("[data-design-count]");
+          if (count) count.textContent = `${String(activeIndex).padStart(2, "0")} / 04`;
+        }
+        if (deck.classList.contains("interior-deck")) {
+          const count = document.querySelector("[data-interior-count]");
+          if (count) count.textContent = `${String(activeIndex).padStart(2, "0")} / 03`;
+        }
+      };
+      const requestDeck = () => {
+        if (!deckFrame) deckFrame = requestAnimationFrame(updateDeck);
+      };
+
+      cards[0].classList.add("is-active");
+      deck.addEventListener("scroll", requestDeck, { passive: true });
+      window.addEventListener("resize", requestDeck, { passive: true });
+    });
+  }
+
   if (!window.gsap || !window.ScrollTrigger || reduce) return;
 
   const gsap = window.gsap;
