@@ -5,6 +5,7 @@
   const compact = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
   const nav = document.querySelector("[data-nav]");
   const mobileCta = document.querySelector(".mobile-cta");
+  const offerSection = document.querySelector(".offer");
   const pageProgress = document.querySelector(".page-progress i");
   const chapterIndex = document.querySelector("[data-chapter-index]");
   const chapterName = document.querySelector("[data-chapter-name]");
@@ -26,7 +27,8 @@
     const y = window.scrollY;
     const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
     nav?.classList.toggle("is-scrolled", y > 120);
-    mobileCta?.classList.toggle("visible", y > 560);
+    const beforeFinale = !offerSection || y < offerSection.offsetTop - innerHeight * .45;
+    mobileCta?.classList.toggle("visible", y > 560 && beforeFinale);
     if (pageProgress) pageProgress.style.transform = `scaleX(${Math.min(1, y / max)})`;
 
     let current = chapters[0];
