@@ -82,34 +82,14 @@
   const intro = gsap.timeline({ defaults: { ease: "power4.out" } });
   intro
     .fromTo(".hero h1 > span", { yPercent: 118, rotation: 2 }, { yPercent: 0, rotation: 0, duration: .72, stagger: .04 })
-    .from(".hero-topline > *, .hero-bottom > *", { y: 14, autoAlpha: 0, duration: .38, stagger: .035 }, "-=.42")
-    .from(".hero-sign", { scale: .15, autoAlpha: 0, rotation: -110, duration: .58 }, "-=.34");
+    .from(".hero-topline > *, .hero-bottom > *", { y: 14, autoAlpha: 0, duration: .38, stagger: .035 }, "-=.42");
 
-  gsap.to(".hero h1 > span:nth-child(odd)", {
-    yPercent: -13,
+  gsap.to(".hero h1", {
+    yPercent: -4,
+    scale: .94,
     ease: "none",
     scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .2 }
   });
-  gsap.to(".hero h1 > span:nth-child(even)", {
-    yPercent: 10,
-    ease: "none",
-    scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: .2 }
-  });
-
-  if (window.matchMedia("(pointer: fine)").matches) {
-    const hero = document.querySelector(".hero");
-    const sign = document.querySelector(".hero-sign");
-    const xTo = sign && gsap.quickTo(sign, "x", { duration: .24, ease: "power3.out" });
-    const yTo = sign && gsap.quickTo(sign, "y", { duration: .24, ease: "power3.out" });
-    const rotateTo = sign && gsap.quickTo(sign, "rotation", { duration: .3, ease: "power3.out" });
-    hero?.addEventListener("pointermove", (event) => {
-      const x = event.clientX / innerWidth - .5;
-      const y = event.clientY / innerHeight - .5;
-      xTo?.(x * 44);
-      yTo?.(y * 32);
-      rotateTo?.(x * 22);
-    });
-  }
 
   gsap.to(".first-look-media img", {
     yPercent: 6,
@@ -135,39 +115,38 @@
     ease: "none",
     scrollTrigger: { trigger: ".manifesto", start: "top bottom", end: "center center", scrub: .22 }
   });
-  gsap.to(".manifesto-mark", {
-    rotation: 145,
+  gsap.to(".manifesto-rule i", {
+    scaleX: 1,
     ease: "none",
-    scrollTrigger: { trigger: ".manifesto", start: "top bottom", end: "bottom top", scrub: .2 }
+    scrollTrigger: { trigger: ".manifesto", start: "top 70%", end: "bottom 55%", scrub: .2 }
   });
 
-  document.querySelectorAll(".reel-shot").forEach((shot, index) => {
-    const media = shot.querySelector(":scope > div");
-    const image = shot.querySelector("img");
-    gsap.from(media, {
-      clipPath: index % 2 ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)",
-      duration: .74,
-      ease: "power3.inOut",
-      scrollTrigger: { trigger: shot, start: "top 86%", once: true }
+  if (!compact) {
+    const designShots = gsap.utils.toArray(".reel-shot");
+    const designCount = document.querySelector("[data-design-count]");
+    const designTimeline = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: ".design-reel",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: .2,
+        onUpdate: (self) => {
+          if (designCount) designCount.textContent = `${String(Math.min(4, Math.floor(self.progress * 4) + 1)).padStart(2, "0")} / 04`;
+        }
+      }
     });
-    gsap.to(image, {
-      yPercent: 5,
-      ease: "none",
-      scrollTrigger: { trigger: shot, start: "top bottom", end: "bottom top", scrub: .22 }
+    designTimeline.to(".design-progress i", { scaleX: 1, duration: 3 }, 0);
+    designShots.slice(1).forEach((shot, index) => {
+      designTimeline
+        .to(shot, { clipPath: "inset(0 0% 0 0)", duration: .82, ease: "power3.inOut" }, index)
+        .fromTo(shot.querySelector("img"), { scale: 1.08 }, { scale: 1, duration: .9, ease: "power2.out" }, index)
+        .fromTo(shot.querySelector("figcaption"), { y: 34, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .42 }, index + .32);
     });
-    gsap.from(shot.querySelector("figcaption"), {
-      y: 26,
-      autoAlpha: 0,
-      duration: .48,
-      ease: "power3.out",
-      scrollTrigger: { trigger: shot, start: "top 78%", once: true }
-    });
-  });
-  gsap.from(".award-stamp b", {
-    xPercent: 35,
-    ease: "none",
-    scrollTrigger: { trigger: ".award-stamp", start: "top bottom", end: "bottom 60%", scrub: .2 }
-  });
+    designTimeline
+      .to(".award-stamp", { clipPath: "inset(0 0% 0 0)", duration: .82, ease: "power3.inOut" }, 2)
+      .fromTo(".award-stamp b", { xPercent: 25 }, { xPercent: 0, duration: .78, ease: "power2.out" }, 2.08);
+  }
 
   if (!compact) {
     gsap.set(".drive-mode i:last-child, .drive-count i:last-child", { yPercent: 120 });
@@ -176,36 +155,42 @@
       scrollTrigger: { trigger: ".drive-stage", start: "top top", end: "bottom bottom", scrub: .2 }
     });
     driveTimeline
+      .to(".drive-sticky", { backgroundColor: "#d8ff36", duration: 1 }, 0)
       .to(".drive-progress i", { scaleX: 1, duration: 1 }, 0)
-      .to(".drive-panel--hybrid", { clipPath: "polygon(0 0,100% 0,108% 100%,0 100%)", duration: 1, ease: "power2.inOut" }, 0)
-      .to(".drive-panel--turbo .drive-car", { xPercent: 45, scale: .55, duration: .55 }, 0)
-      .to(".drive-panel--hybrid .drive-car", { xPercent: -28, yPercent: -12, scale: .55, duration: .55 }, 0)
-      .to(".drive-panel--hybrid .drive-car", { xPercent: 0, yPercent: 0, scale: 1, duration: .45 }, .55)
+      .to(".drive-panel--turbo .drive-car", { autoAlpha: 0, scale: .985, duration: .52 }, .2)
+      .fromTo(".drive-panel--hybrid .drive-car", { autoAlpha: 0, scale: 1.015 }, { autoAlpha: 1, scale: 1, duration: .52 }, .2)
+      .to(".drive-panel--turbo .drive-word", { autoAlpha: 0, duration: .34 }, .28)
+      .to(".drive-panel--hybrid .drive-word", { autoAlpha: 1, duration: .34 }, .38)
+      .to(".drive-panel--turbo .drive-copy", { autoAlpha: 0, y: -22, duration: .28 }, .28)
+      .to(".drive-panel--hybrid .drive-copy", { autoAlpha: 1, y: 0, duration: .32 }, .46)
       .to(".drive-mode i:first-child, .drive-count i:first-child", { yPercent: -120, duration: .25 }, .38)
       .to(".drive-mode i:last-child, .drive-count i:last-child", { yPercent: 0, duration: .25 }, .42)
       .fromTo(".drive-trust span", { y: 10 }, { y: 0, stagger: .025, duration: .2 }, .58);
   }
 
-  gsap.to(".interior-visual img", {
-    yPercent: 6,
-    scale: 1,
-    ease: "none",
-    scrollTrigger: { trigger: ".interior", start: "top bottom", end: "45% top", scrub: .22 }
-  });
-  document.querySelectorAll(".interior-grid figure").forEach((figure, index) => {
-    gsap.from(figure, {
-      clipPath: index ? "inset(0 0 0 100%)" : "inset(0 100% 0 0)",
-      duration: .7,
-      ease: "power3.inOut",
-      scrollTrigger: { trigger: figure, start: "top 88%", once: true }
+  if (!compact) {
+    const interiorScenes = gsap.utils.toArray(".interior-scene");
+    const interiorCount = document.querySelector("[data-interior-count]");
+    const interiorTimeline = gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: ".interior",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: .2,
+        onUpdate: (self) => {
+          if (interiorCount) interiorCount.textContent = `${String(Math.min(3, Math.floor(self.progress * 3) + 1)).padStart(2, "0")} / 03`;
+        }
+      }
     });
-    gsap.to(figure.querySelector("img"), {
-      yPercent: index ? -4 : 4,
-      scale: 1.055,
-      ease: "none",
-      scrollTrigger: { trigger: figure, start: "top bottom", end: "bottom top", scrub: .22 }
+    interiorTimeline.to(".interior-progress i", { scaleX: 1, duration: 2 }, 0);
+    interiorScenes.slice(1).forEach((scene, index) => {
+      interiorTimeline
+        .to(scene, { clipPath: "inset(0 0 0% 0)", duration: .78, ease: "power3.inOut" }, index)
+        .fromTo(scene.querySelector("img"), { scale: 1.1 }, { scale: 1, duration: .88, ease: "power2.out" }, index)
+        .fromTo(scene.querySelector("figcaption"), { y: 34, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .4 }, index + .3);
     });
-  });
+  }
 
   document.querySelectorAll(".space-word span").forEach((line, index) => {
     gsap.fromTo(line, { xPercent: index % 2 ? 14 : -14 }, {
@@ -225,8 +210,7 @@
       const at = index;
       colorTimeline
         .to(scene, { clipPath: "inset(0 0% 0 0)", duration: .78, ease: "power2.inOut" }, at)
-        .fromTo(scene.querySelector("img"), { xPercent: 18, scale: .92, rotation: 1.5 }, { xPercent: 0, scale: 1, rotation: 0, duration: .82, ease: "power2.out" }, at)
-        .fromTo(scene.querySelector("h2"), { xPercent: -10 }, { xPercent: 0, duration: .72, ease: "power2.out" }, at + .06);
+        .fromTo(scene.querySelector("h2"), { xPercent: -6 }, { xPercent: 0, duration: .72, ease: "power2.out" }, at + .06);
     });
   }
 
