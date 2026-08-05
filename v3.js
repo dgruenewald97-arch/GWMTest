@@ -54,7 +54,7 @@
 
       deck.tabIndex = 0;
       deck.setAttribute("role", "region");
-      deck.setAttribute("aria-label", `${deck.dataset.swipeLabel || "Karten"} - horizontal wischen`);
+      deck.setAttribute("aria-label", `${deck.dataset.swipeLabel || "Szenen"} - horizontal wischen`);
 
       let deckFrame = 0;
       const updateDeck = () => {
