@@ -1,7 +1,7 @@
 .chromatic {
   --paper: #efede7;
   --ink: #0e0e0d;
-  --display: Arial Black, Arial, Helvetica, sans-serif;
+  --display: "Barlow Condensed", Impact, sans-serif;
   position: relative;
   height: 560vh;
   overflow: clip;
