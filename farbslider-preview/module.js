@@ -98,7 +98,23 @@
     var ScrollTrigger=window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
     if(!compact&&window.Lenis){
-      var lenis=new window.Lenis({duration:.85,easing:function(t){return 1-Math.pow(1-t,4);},smoothWheel:true,syncTouch:false,wheelMultiplier:.6});
+      var lenis=new window.Lenis({
+        duration:.85,
+        easing:function(t){return 1-Math.pow(1-t,4);},
+        smoothWheel:true,
+        syncTouch:false,
+        wheelMultiplier:.6,
+        virtualScroll:function(data){
+          var event=data.event;
+          if(!event||!event.type.includes('wheel'))return;
+          var rawY=Math.abs(event.deltaY||0);
+          var legacyY=Math.abs(event.wheelDeltaY||0);
+          var lineWheel=event.deltaMode===1;
+          var coarsePixelWheel=event.deltaMode===0&&rawY>=80&&(legacyY===120||Math.abs(rawY/100-Math.round(rawY/100))<.05);
+          if(lineWheel)data.deltaY*=1.8;
+          else if(coarsePixelWheel)data.deltaY*=1.65;
+        }
+      });
       lenis.on('scroll',function(){ScrollTrigger.update();});
       gsap.ticker.add(function(time){lenis.raf(time*1000);});
       gsap.ticker.lagSmoothing(0);
