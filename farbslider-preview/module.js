@@ -9,7 +9,6 @@
 
   var trimStart=compact?0.26:0.24;
   var trimEnd=compact?0.62:0.56;
-  var trimMid=(trimStart+trimEnd)/2;
   var handoffStart=compact?0.75:0.72;
   var handoffEnd=compact?0.97:0.96;
   var luxury=trimRoot&&trimRoot.querySelector('.trim-scene--luxury');
@@ -99,7 +98,7 @@
     var ScrollTrigger=window.ScrollTrigger;
     gsap.registerPlugin(ScrollTrigger);
     if(!compact&&window.Lenis){
-      var lenis=new window.Lenis({duration:.38,easing:function(t){return 1-Math.pow(1-t,4);},smoothWheel:true,syncTouch:false,wheelMultiplier:.96});
+      var lenis=new window.Lenis({duration:.85,easing:function(t){return 1-Math.pow(1-t,4);},smoothWheel:true,syncTouch:false,wheelMultiplier:.6});
       lenis.on('scroll',function(){ScrollTrigger.update();});
       gsap.ticker.add(function(time){lenis.raf(time*1000);});
       gsap.ticker.lagSmoothing(0);
@@ -109,14 +108,7 @@
         trigger:trimRoot,
         start:'top top',
         end:'bottom bottom',
-        scrub:.22,
-        snap:{
-          snapTo:function(progress){return progress>=trimStart&&progress<=trimEnd?(progress<trimMid?trimStart:trimEnd):progress;},
-          duration:{min:.12,max:.28},
-          delay:.1,
-          ease:'power1.out',
-          inertia:false
-        }
+        scrub:compact ? .24 : .42
       }});
       trimTimeline
         .to({}, {duration:1},0)
@@ -139,16 +131,7 @@
       var colorTransition=.62;
       var colorTotal=colorIntro+Math.max(0,colorScenes.length-1);
       var colorTimeline=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{
-        trigger:colorRoot,start:'top top',end:'bottom bottom',scrub:compact ? .14 : .22,
-        snap:{snapTo:function(progress){
-          var unit=progress*colorTotal;
-          for(var i=0;i<colorScenes.length-1;i++){
-            var start=colorIntro+i;
-            var end=start+colorTransition;
-            if(unit>=start&&unit<=end)return (unit<(start+end)/2?start:end)/colorTotal;
-          }
-          return progress;
-        },duration:{min:.16,max:.3},delay:.12,ease:'power1.out',inertia:false}
+        trigger:colorRoot,start:'top top',end:'bottom bottom',scrub:compact ? .2 : .4
       }});
       colorTimeline.to({}, {duration:colorTotal},0);
       colorScenes.slice(1).forEach(function(scene,index){
