@@ -4,7 +4,8 @@
   var compact=window.matchMedia('(max-width: 900px)').matches;
   var trimRoot=document.querySelector('[data-trim-compare]');
   var colorRoot=document.querySelector('[data-gwm-color-selector]');
-  if(reduce||(!trimRoot&&!colorRoot))return;
+  if(!trimRoot&&!colorRoot)return;
+  if(reduce){if(colorRoot)colorRoot.classList.add('is-stage-ready');return;}
 
   var trimStart=compact?0.26:0.24;
   var trimEnd=compact?0.62:0.56;
@@ -44,11 +45,16 @@
     });
     if(handoff){
       var bridge=easeInOut(range(progress,handoffStart,handoffEnd));
-      handoff.style.clipPath='inset('+((1-bridge)*100)+'% 0 0 0)';
-      luxuryContent.forEach(function(item){item.style.opacity=1-bridge*.72;item.style.transform='translateY('+(-10*bridge)+'px)';});
-      if(handoffImage){handoffImage.style.opacity=.35+bridge*.65;handoffImage.style.transform='translateY('+((1-bridge)*6)+'%) scale('+(0.96+bridge*.04)+')';}
-      if(handoffTitle){handoffTitle.style.opacity=.25+bridge*.75;handoffTitle.style.transform='translateY('+((1-bridge)*8)+'%)';}
-      handoffUtility.forEach(function(item){item.style.opacity=bridge;});
+      var bridgeOut=easeInOut(range(bridge,0,.35));
+      var imageIn=easeInOut(range(bridge,.16,.82));
+      var titleIn=easeInOut(range(bridge,.42,.94));
+      var utilityIn=easeInOut(range(bridge,.58,1));
+      handoff.style.clipPath='inset(0)';
+      handoff.style.opacity=bridge;
+      luxuryContent.forEach(function(item){item.style.opacity=1-bridgeOut;item.style.transform='translateY('+(-10*bridgeOut)+'px)';});
+      if(handoffImage){handoffImage.style.opacity=imageIn;handoffImage.style.transform='translateY('+((1-imageIn)*6)+'%) scale('+(0.96+imageIn*.04)+')';}
+      if(handoffTitle){handoffTitle.style.display=titleIn>.01?'block':'none';handoffTitle.style.visibility=titleIn>.01?'visible':'hidden';handoffTitle.style.opacity=titleIn;handoffTitle.style.transform='translateY('+((1-titleIn)*8)+'%)';}
+      handoffUtility.forEach(function(item){item.style.display=utilityIn>.01?'block':'none';item.style.visibility=utilityIn>.01?'visible':'hidden';item.style.opacity=utilityIn;});
     }
   }
   function updateColorsFallback(){
@@ -80,6 +86,13 @@
     window.addEventListener('resize',request,{passive:true});
     callback();
   }
+  function updateStageHandoff(){
+    if(!colorRoot)return;
+    if(!trimRoot){colorRoot.classList.add('is-stage-ready');return;}
+    colorRoot.classList.toggle('is-stage-ready',colorRoot.getBoundingClientRect().top<=1);
+  }
+
+  installUpdater(updateStageHandoff);
 
   if(window.gsap&&window.ScrollTrigger){
     var gsap=window.gsap;
@@ -112,11 +125,13 @@
         .fromTo(luxuryDetails,{y:20,opacity:0},{y:0,opacity:1,duration:.1,stagger:.015,ease:'power2.out'},trimStart+.11);
       if(handoff){
         trimTimeline
-          .to(luxuryContent,{y:-10,opacity:.28,duration:.08,ease:'power1.out'},handoffStart)
-          .fromTo(handoff,{clipPath:'inset(100% 0% 0% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:handoffEnd-handoffStart,ease:'power2.inOut'},handoffStart)
-          .fromTo(handoffImage,{opacity:.35,scale:.96,yPercent:6},{opacity:1,scale:1,yPercent:0,duration:handoffEnd-handoffStart-.02,ease:'power2.out'},handoffStart+.02)
-          .fromTo(handoffTitle,{opacity:.25,yPercent:8},{opacity:1,yPercent:0,duration:handoffEnd-handoffStart-.05,ease:'power2.out'},handoffStart+.05)
-          .fromTo(handoffUtility,{opacity:0},{opacity:1,duration:.08,stagger:.015,ease:'power1.out'},handoffEnd-.1);
+          .to(luxuryContent,{y:-10,opacity:0,duration:.08,ease:'power1.out'},handoffStart)
+          .fromTo(handoff,{clipPath:'inset(0)',opacity:0},{clipPath:'inset(0)',opacity:1,duration:handoffEnd-handoffStart,ease:'power2.inOut'},handoffStart)
+          .fromTo(handoffImage,{opacity:0,scale:.96,yPercent:6},{opacity:1,scale:1,yPercent:0,duration:handoffEnd-handoffStart-.05,ease:'power2.out'},handoffStart+.05)
+          .set(handoffTitle,{display:'block'},handoffStart+.11)
+          .fromTo(handoffTitle,{autoAlpha:0,yPercent:8},{autoAlpha:1,yPercent:0,duration:handoffEnd-handoffStart-.11,ease:'power2.out'},handoffStart+.11)
+          .set(handoffUtility,{display:'block'},handoffEnd-.1)
+          .fromTo(handoffUtility,{autoAlpha:0},{autoAlpha:1,duration:.08,stagger:.015,ease:'power1.out'},handoffEnd-.1);
       }
     }
     if(colorRoot){

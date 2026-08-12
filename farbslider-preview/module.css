@@ -35,12 +35,14 @@
 .trim-scene__features li::before { content: "+"; position: absolute; left: 0; font-weight: 900; }
 .trim-scene__legal { position: absolute; left: 2vw; right: 2vw; bottom: .8rem; margin: 0; padding-top: .55rem; border-top: 1px solid currentColor; font-size: .55rem; line-height: 1.35; opacity: .45; }
 
-.chromatic { height: 680vh; height: 680svh; background: var(--paper); color: var(--ink); }
+.chromatic { height: 680vh; height: 680svh; background: transparent; color: var(--ink); }
 .trim-story + .chromatic { z-index: 4; margin-top: calc(-1 * var(--stage-height)); }
 .chromatic-top { display: none; }
-.chromatic-track { position: sticky; top: 0; width: 100%; height: var(--stage-height); overflow: hidden; }
+.chromatic-track { position: sticky; top: 0; display: none; width: 100%; height: var(--stage-height); overflow: hidden; visibility: hidden; opacity: 0; }
+.chromatic.is-stage-ready .chromatic-track { display: block; visibility: visible; opacity: 1; }
 .color-scene { position: absolute; inset: 0; height: 100%; overflow: hidden; padding: 5rem 2vw 2vw; color: var(--text,var(--ink)); background: var(--tone); clip-path: inset(0 100% 0 0); will-change: clip-path; }
-.trim-handoff { z-index: 3; clip-path: inset(100% 0 0 0); pointer-events: none; }
+.trim-handoff { z-index: 3; clip-path: inset(0); opacity: 0; pointer-events: none; will-change: opacity; }
+.trim-handoff > span,.trim-handoff > h2,.trim-handoff > p { display: none; visibility: hidden; }
 .color-scene:first-child { clip-path: inset(0); }
 .color-scene:nth-child(1) { z-index: 1; }
 .color-scene:nth-child(2) { z-index: 2; }
@@ -79,7 +81,7 @@
   .chromatic-track { height: var(--stage-height); }
   .color-scene { width: 100%; height: 100%; min-height: 0; padding: 1rem; clip-path: inset(0); opacity: 0; }
   .color-scene:first-child { clip-path: inset(0); opacity: 1; }
-  .trim-handoff { clip-path: inset(100% 0 0 0); opacity: 1; }
+  .trim-handoff { clip-path: inset(0); opacity: 0; }
   .color-scene::after { display: none; }
   .color-scene > span { top: 1.7rem; left: 1rem; }
   .color-scene img { left: -6%; top: 10%; width: 112%; height: 58%; }
@@ -97,6 +99,7 @@
   .trim-story,.chromatic { height: auto; overflow: visible; }
   .trim-story + .chromatic { margin-top: 0; }
   .trim-story__track,.chromatic-track { position: relative; top: auto; display: block; height: auto; overflow: visible; }
+  .chromatic-track { display: block; visibility: visible; opacity: 1; }
   .trim-scene,.color-scene { position: relative; inset: auto; width: 100%; min-height: 75vh; clip-path: none !important; transform: none !important; }
   .trim-scene { padding: 4rem 1rem; }
   .trim-scene__body { grid-template-columns: 1fr; padding: 0; }
