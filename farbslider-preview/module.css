@@ -4,6 +4,7 @@
   --ink: #0e0e0d;
   --acid: #d8ff36;
   --display: "Libre Franklin", Arial, sans-serif;
+  --stage-height: 100svh;
   position: relative;
   overflow: clip;
   font-family: "Libre Franklin", Arial, Helvetica, sans-serif;
@@ -11,7 +12,7 @@
 .trim-story *, .chromatic * { box-sizing: border-box; }
 
 .trim-story { height: 360vh; height: 360svh; color: var(--paper); background: var(--ink); }
-.trim-story__track { position: sticky; top: 0; width: 100%; height: 100vh; height: 100svh; overflow: hidden; }
+.trim-story__track { position: sticky; top: 0; width: 100%; height: var(--stage-height); overflow: hidden; }
 .trim-scene { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: clamp(1.5rem,3vw,3rem) 2vw; color: var(--paper); background: var(--ink); overflow: hidden; }
 .trim-scene--luxury { z-index: 2; color: var(--ink); background: var(--acid); clip-path: inset(100% 0 0 0); will-change: clip-path; }
 .trim-scene__body { display: grid; grid-template-columns: minmax(18rem,.82fr) minmax(0,1.18fr); gap: 1.5rem 3vw; align-items: start; width: 100%; padding-bottom: 3rem; }
@@ -34,10 +35,12 @@
 .trim-scene__features li::before { content: "+"; position: absolute; left: 0; font-weight: 900; }
 .trim-scene__legal { position: absolute; left: 2vw; right: 2vw; bottom: .8rem; margin: 0; padding-top: .55rem; border-top: 1px solid currentColor; font-size: .55rem; line-height: 1.35; opacity: .45; }
 
-.chromatic { height: 560vh; background: var(--paper); color: var(--ink); }
+.chromatic { height: 680vh; height: 680svh; background: var(--paper); color: var(--ink); }
+.trim-story + .chromatic { z-index: 4; margin-top: calc(-1 * var(--stage-height)); }
 .chromatic-top { display: none; }
-.chromatic-track { position: sticky; top: 0; width: 100%; height: 100vh; overflow: hidden; }
+.chromatic-track { position: sticky; top: 0; width: 100%; height: var(--stage-height); overflow: hidden; }
 .color-scene { position: absolute; inset: 0; height: 100%; overflow: hidden; padding: 5rem 2vw 2vw; color: var(--text,var(--ink)); background: var(--tone); clip-path: inset(0 100% 0 0); will-change: clip-path; }
+.trim-handoff { z-index: 3; clip-path: inset(100% 0 0 0); pointer-events: none; }
 .color-scene:first-child { clip-path: inset(0); }
 .color-scene:nth-child(1) { z-index: 1; }
 .color-scene:nth-child(2) { z-index: 2; }
@@ -48,13 +51,14 @@
 .color-scene:nth-child(7) { z-index: 7; }
 .color-scene::after { content: ""; position: absolute; z-index: 5; top: 4.3rem; left: 2vw; right: 2vw; height: 1px; background: currentColor; opacity: .35; }
 .color-scene > span { position: absolute; z-index: 6; left: 2vw; top: 5.5rem; font-size: .58rem; font-weight: 700; letter-spacing: .1em; }
+.color-scene > span::before { content: "Farbe "; }
 .color-scene img { position: absolute; z-index: 2; left: 34%; top: 15%; width: 62%; height: 65%; object-fit: contain; filter: drop-shadow(0 30px 20px rgba(0,0,0,.25)); }
-.color-scene h2 { position: absolute; z-index: 4; left: 2vw; bottom: 2vw; margin: 0; color: #fff; mix-blend-mode: difference; font: 900 clamp(7rem,17vw,18rem)/.63 var(--display); letter-spacing: -.06em; text-transform: uppercase; }
-.color-scene p { position: absolute; z-index: 3; right: 2vw; bottom: 2vw; margin: 0; font-size: .58rem; font-weight: 700; text-transform: uppercase; }
+.color-scene h2 { position: absolute; z-index: 4; left: 2vw; bottom: 2vw; margin: 0; color: currentColor; font: 900 clamp(6rem,14.5vw,15rem)/.74 var(--display); letter-spacing: -.06em; text-transform: uppercase; }
+.color-scene p { position: absolute; z-index: 3; right: 2vw; bottom: 2vw; margin: 0; font-size: clamp(.72rem,.85vw,.9rem); font-weight: 700; text-transform: uppercase; }
 
 @media (max-width:900px) {
   .trim-story { height: 340vh; height: 340svh; }
-  .trim-story__track { height: 100vh; height: 100svh; }
+  .trim-story__track { height: var(--stage-height); }
   .trim-scene { padding: 1rem; }
   .trim-scene__body { grid-template-columns: minmax(0,1fr); gap: 1rem; padding-bottom: 3.7rem; }
   .trim-scene__name,.trim-scene__prices,.trim-upgrade,.trim-scene__features { grid-column: 1; }
@@ -71,15 +75,15 @@
   .trim-scene__features li { font-size: clamp(.75rem,3vw,.88rem); line-height: 1.25; }
   .trim-scene__legal { left: 1rem; right: 1rem; bottom: .55rem; font-size: .48rem; }
 
-  .chromatic { height: 560vh; height: 560dvh; padding: 0; }
-  .chromatic-track { height: 100vh; height: 100dvh; }
+  .chromatic { height: 680vh; height: 680svh; padding: 0; }
+  .chromatic-track { height: var(--stage-height); }
   .color-scene { width: 100%; height: 100%; min-height: 0; padding: 1rem; clip-path: inset(100% 0 0 0); }
   .color-scene:first-child { clip-path: inset(0); }
   .color-scene::after { display: none; }
   .color-scene > span { top: 1.7rem; left: 1rem; }
-  .color-scene img { left: -5%; top: 10%; width: 110%; height: 58%; }
-  .color-scene h2 { left: 1rem; right: 1rem; bottom: 1.25rem; max-width: none; font-size: clamp(4rem,16.5vw,6.8rem); line-height: .76; letter-spacing: -.055em; }
-  .color-scene p { right: 1rem; bottom: 1.25rem; }
+  .color-scene img { left: -6%; top: 10%; width: 112%; height: 58%; }
+  .color-scene h2 { left: 1rem; right: 1rem; bottom: max(1.25rem,env(safe-area-inset-bottom)); max-width: none; font-size: clamp(4rem,16vw,6.8rem); line-height: .78; letter-spacing: -.055em; }
+  .color-scene p { right: 1rem; bottom: max(1.25rem,env(safe-area-inset-bottom)); font-size: .72rem; }
 }
 
 @media (max-width:380px) {
@@ -90,10 +94,12 @@
 
 @media (prefers-reduced-motion:reduce) {
   .trim-story,.chromatic { height: auto; overflow: visible; }
+  .trim-story + .chromatic { margin-top: 0; }
   .trim-story__track,.chromatic-track { position: relative; top: auto; display: block; height: auto; overflow: visible; }
   .trim-scene,.color-scene { position: relative; inset: auto; width: 100%; min-height: 75vh; clip-path: none !important; transform: none !important; }
   .trim-scene { padding: 4rem 1rem; }
   .trim-scene__body { grid-template-columns: 1fr; padding: 0; }
   .trim-scene__name,.trim-scene__prices,.trim-upgrade,.trim-scene__features { grid-column: 1; opacity: 1 !important; transform: none !important; }
   .trim-scene__legal { position: static; margin-top: 2rem; }
+  .trim-handoff { display: none; }
 }
