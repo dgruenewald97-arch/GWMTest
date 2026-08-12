@@ -77,8 +77,9 @@
 
   .chromatic { height: 680vh; height: 680svh; padding: 0; }
   .chromatic-track { height: var(--stage-height); }
-  .color-scene { width: 100%; height: 100%; min-height: 0; padding: 1rem; clip-path: inset(100% 0 0 0); }
-  .color-scene:first-child { clip-path: inset(0); }
+  .color-scene { width: 100%; height: 100%; min-height: 0; padding: 1rem; clip-path: inset(0); opacity: 0; }
+  .color-scene:first-child { clip-path: inset(0); opacity: 1; }
+  .trim-handoff { clip-path: inset(100% 0 0 0); opacity: 1; }
   .color-scene::after { display: none; }
   .color-scene > span { top: 1.7rem; left: 1rem; }
   .color-scene img { left: -6%; top: 10%; width: 112%; height: 58%; }
