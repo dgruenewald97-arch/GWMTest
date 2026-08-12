@@ -9,9 +9,16 @@
   var trimStart=compact?0.26:0.24;
   var trimEnd=compact?0.62:0.56;
   var trimMid=(trimStart+trimEnd)/2;
+  var handoffStart=compact?0.75:0.72;
+  var handoffEnd=compact?0.97:0.96;
   var luxury=trimRoot&&trimRoot.querySelector('.trim-scene--luxury');
   var luxuryName=luxury&&luxury.querySelector('.trim-scene__name');
   var luxuryDetails=luxury?[].slice.call(luxury.querySelectorAll('.trim-upgrade,.trim-scene__features--upgrade li')):[];
+  var luxuryContent=luxury?[].slice.call(luxury.querySelectorAll('.trim-scene__body,.trim-scene__legal')):[];
+  var handoff=trimRoot&&trimRoot.querySelector('.trim-handoff');
+  var handoffImage=handoff&&handoff.querySelector('img');
+  var handoffTitle=handoff&&handoff.querySelector('h2');
+  var handoffUtility=handoff?[].slice.call(handoff.querySelectorAll('span,p')):[];
   var colorScenes=colorRoot?[].slice.call(colorRoot.querySelectorAll('.color-scene')):[];
 
   function clamp(value){return Math.max(0,Math.min(1,value));}
@@ -35,20 +42,30 @@
       item.style.opacity=itemReveal;
       item.style.transform='translateY('+((1-itemReveal)*20)+'px)';
     });
+    if(handoff){
+      var bridge=easeInOut(range(progress,handoffStart,handoffEnd));
+      handoff.style.clipPath='inset('+((1-bridge)*100)+'% 0 0 0)';
+      luxuryContent.forEach(function(item){item.style.opacity=1-bridge*.72;item.style.transform='translateY('+(-10*bridge)+'px)';});
+      if(handoffImage){handoffImage.style.opacity=.35+bridge*.65;handoffImage.style.transform='translateY('+((1-bridge)*6)+'%) scale('+(0.96+bridge*.04)+')';}
+      if(handoffTitle){handoffTitle.style.opacity=.25+bridge*.75;handoffTitle.style.transform='translateY('+((1-bridge)*8)+'%)';}
+      handoffUtility.forEach(function(item){item.style.opacity=bridge;});
+    }
   }
   function updateColorsFallback(){
     if(!colorRoot)return;
     var progress=progressFor(colorRoot);
     var steps=Math.max(1,colorScenes.length-1);
+    var intro=.11;
+    var journey=clamp((progress-intro)/(1-intro));
     colorScenes.forEach(function(scene,index){
       if(index===0){scene.style.clipPath='inset(0)';return;}
-      var local=clamp(progress*steps-(index-1));
-      var reveal=easeInOut(local);
+      var local=journey*steps-(index-1);
+      var reveal=easeInOut(range(local,.18,.78));
       scene.style.clipPath=compact?'inset('+((1-reveal)*100)+'% 0 0 0)':'inset(0 '+((1-reveal)*100)+'% 0 0)';
-      if(!compact){
-        var title=scene.querySelector('h2');
-        if(title)title.style.transform='translateX('+(-6*(1-reveal))+'%)';
-      }
+      var title=scene.querySelector('h2');
+      var image=scene.querySelector('img');
+      if(title)title.style.transform=(compact?'translateY('+(8*(1-reveal))+'%)':'translateX('+(-4*(1-reveal))+'%)');
+      if(image){image.style.opacity=.4+reveal*.6;image.style.transform='scale('+(0.965+reveal*.035)+')';}
     });
   }
   function installUpdater(callback){
@@ -88,15 +105,41 @@
         .fromTo(luxury,{clipPath:'inset(100% 0% 0% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:trimEnd-trimStart,ease:'power2.inOut'},trimStart)
         .fromTo(luxuryName,{yPercent:6},{yPercent:0,duration:Math.max(.12,trimEnd-trimStart-.1),ease:'power2.out'},trimStart+.05)
         .fromTo(luxuryDetails,{y:20,opacity:0},{y:0,opacity:1,duration:.1,stagger:.015,ease:'power2.out'},trimStart+.11);
+      if(handoff){
+        trimTimeline
+          .to(luxuryContent,{y:-10,opacity:.28,duration:.08,ease:'power1.out'},handoffStart)
+          .fromTo(handoff,{clipPath:'inset(100% 0% 0% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:handoffEnd-handoffStart,ease:'power2.inOut'},handoffStart)
+          .fromTo(handoffImage,{opacity:.35,scale:.96,yPercent:6},{opacity:1,scale:1,yPercent:0,duration:handoffEnd-handoffStart-.02,ease:'power2.out'},handoffStart+.02)
+          .fromTo(handoffTitle,{opacity:.25,yPercent:8},{opacity:1,yPercent:0,duration:handoffEnd-handoffStart-.05,ease:'power2.out'},handoffStart+.05)
+          .fromTo(handoffUtility,{opacity:0},{opacity:1,duration:.08,stagger:.015,ease:'power1.out'},handoffEnd-.1);
+      }
     }
-    if(colorRoot&&!compact){
-      var colorTimeline=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:colorRoot,start:'top top',end:'bottom bottom',scrub:.22}});
+    if(colorRoot){
+      var colorIntro=.8;
+      var colorTransition=.62;
+      var colorTotal=colorIntro+Math.max(0,colorScenes.length-1);
+      var colorTimeline=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{
+        trigger:colorRoot,start:'top top',end:'bottom bottom',scrub:compact ? .14 : .22,
+        snap:{snapTo:function(progress){
+          var unit=progress*colorTotal;
+          for(var i=0;i<colorScenes.length-1;i++){
+            var start=colorIntro+i;
+            var end=start+colorTransition;
+            if(unit>=start&&unit<=end)return (unit<(start+end)/2?start:end)/colorTotal;
+          }
+          return progress;
+        },duration:{min:.16,max:.3},delay:.12,ease:'power1.out',inertia:false}
+      }});
+      colorTimeline.to({}, {duration:colorTotal},0);
       colorScenes.slice(1).forEach(function(scene,index){
-        var at=index;
-        colorTimeline.to(scene,{clipPath:'inset(0 0% 0 0)',duration:.78,ease:'power2.inOut'},at).fromTo(scene.querySelector('h2'),{xPercent:-6},{xPercent:0,duration:.72,ease:'power2.out'},at+.06);
+        var at=colorIntro+index;
+        var startClip=compact?'inset(100% 0% 0% 0%)':'inset(0% 100% 0% 0%)';
+        colorTimeline.fromTo(scene,{clipPath:startClip},{clipPath:'inset(0% 0% 0% 0%)',duration:colorTransition,ease:'power2.inOut'},at);
+        var image=scene.querySelector('img');
+        var title=scene.querySelector('h2');
+        if(image)colorTimeline.fromTo(image,{opacity:.4,scale:.965},{opacity:1,scale:1,duration:colorTransition-.04,ease:'power2.out'},at+.04);
+        if(title)colorTimeline.fromTo(title,compact?{opacity:.25,yPercent:8}:{opacity:.25,xPercent:-4},compact?{opacity:1,yPercent:0,duration:colorTransition-.08,ease:'power2.out'}:{opacity:1,xPercent:0,duration:colorTransition-.08,ease:'power2.out'},at+.08);
       });
-    }else if(colorRoot){
-      installUpdater(updateColorsFallback);
     }
     return;
   }
