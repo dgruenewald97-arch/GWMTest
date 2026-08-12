@@ -10,36 +10,29 @@
 }
 .trim-story *, .chromatic * { box-sizing: border-box; }
 
-.trim-story { height: 200vh; color: var(--paper); background: var(--ink); }
-.trim-story__track { position: sticky; top: 0; width: 100%; height: 100vh; overflow: hidden; }
-.trim-scene { position: absolute; inset: 0; display: grid; grid-template-rows: auto 1fr; padding: 2rem 2vw; color: var(--paper); background: var(--ink); overflow: hidden; }
+.trim-story { height: 360vh; height: 360svh; color: var(--paper); background: var(--ink); }
+.trim-story__track { position: sticky; top: 0; width: 100%; height: 100vh; height: 100svh; overflow: hidden; }
+.trim-scene { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: clamp(1.5rem,3vw,3rem) 2vw; color: var(--paper); background: var(--ink); overflow: hidden; }
 .trim-scene--luxury { z-index: 2; color: var(--ink); background: var(--acid); clip-path: inset(100% 0 0 0); will-change: clip-path; }
-.trim-scene--luxury::before { content: "+"; position: absolute; right: 1vw; top: 3vh; font: 900 72vh/.8 var(--display); letter-spacing: -.1em; opacity: .055; pointer-events: none; }
-.trim-scene--luxury > * { position: relative; z-index: 1; }
-.trim-scene__chapter { display: flex; justify-content: space-between; padding-top: .75rem; border-top: 1px solid currentColor; font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.trim-scene__chapter strong { font: inherit; }
-.trim-scene__intro { position: absolute; top: 5.5rem; right: 2vw; width: min(28rem, 36vw); }
-.trim-scene__intro p { margin: 0; font-size: clamp(.78rem, 1.1vw, 1rem); line-height: 1.45; }
-.trim-scene__body { align-self: end; display: grid; grid-template-columns: 1.35fr .65fr 1fr; gap: 1.6rem 2vw; align-items: start; padding-bottom: 2.6rem; }
-.trim-scene__body--upgrade { grid-template-columns: 1.35fr .65fr 1fr; }
-.trim-scene__name { grid-column: 1 / -1; min-width: 0; }
-.trim-scene__name > span, .trim-scene__prices span, .trim-scene__features h3 { font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.trim-scene__name h2 { margin: clamp(1.5rem, 4vh, 3rem) 0 .4rem; font: 900 clamp(7rem, 12vw, 13rem)/.72 var(--display); letter-spacing: -.07em; text-transform: uppercase; white-space: nowrap; }
-.trim-scene__name p { margin: 0; font-size: .9rem; }
-.trim-scene__prices { grid-column: 2; align-self: start; display: grid; grid-template-columns: 1fr 1fr; width: 100%; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
-.trim-scene__prices > div { display: flex; flex-direction: column; gap: .7rem; padding: 1rem 0; }
-.trim-scene__prices > div + div { padding-left: 1rem; border-left: 1px solid currentColor; }
-.trim-scene__prices strong { font: 800 clamp(1.35rem, 2.15vw, 2.6rem)/1 var(--display); letter-spacing: -.04em; white-space: nowrap; }
-.trim-upgrade { grid-column: 2; align-self: start; width: 100%; padding: 1rem 0; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; }
-.trim-upgrade > span { display: block; font-size: .58rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.trim-upgrade > strong { display: block; margin: 1.2rem 0 .6rem; font: 900 clamp(2.4rem, 4vw, 4.8rem)/.85 var(--display); letter-spacing: -.065em; white-space: nowrap; }
-.trim-upgrade > p { margin: 0; font-size: .65rem; font-weight: 700; line-height: 1.45; text-transform: uppercase; }
-.trim-scene__features { grid-column: 3; align-self: start; min-width: 0; }
-.trim-scene__features h3 { margin: 0 0 .85rem; }
-.trim-scene__features ul { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: .58rem 1rem; min-width: 0; margin: 0; padding: 0; list-style: none; }
-.trim-scene__features li { position: relative; min-width: 0; padding-left: .8rem; overflow-wrap: break-word; font-size: clamp(.62rem, .82vw, .78rem); line-height: 1.25; }
+.trim-scene__body { display: grid; grid-template-columns: minmax(18rem,.82fr) minmax(0,1.18fr); gap: 1.5rem 3vw; align-items: start; width: 100%; padding-bottom: 3rem; }
+.trim-scene__name { grid-column: 1 / -1; min-width: 0; padding-bottom: 1.5rem; border-bottom: 1px solid currentColor; }
+.trim-scene__name h2 { margin: 0 0 .8rem; font: 900 clamp(7rem,12vw,13rem)/.72 var(--display); letter-spacing: -.07em; text-transform: uppercase; white-space: nowrap; }
+.trim-scene__name p { max-width: 38rem; margin: 0; font-size: clamp(.95rem,1.15vw,1.1rem); font-weight: 500; line-height: 1.45; }
+.trim-scene__prices { grid-column: 1; display: grid; grid-template-columns: 1fr 1fr; width: 100%; border-bottom: 1px solid currentColor; }
+.trim-scene__prices > div { display: flex; flex-direction: column; gap: .7rem; padding: .2rem 0 1rem; }
+.trim-scene__prices > div + div { padding-left: 1.25rem; border-left: 1px solid currentColor; }
+.trim-scene__prices span,.trim-upgrade > span,.trim-scene__features h3 { font-size: .72rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.trim-scene__prices strong { font: 800 clamp(2rem,3vw,3.4rem)/1 var(--display); letter-spacing: -.045em; white-space: nowrap; }
+.trim-upgrade { grid-column: 1; width: 100%; padding: .2rem 0 1rem; border-bottom: 1px solid currentColor; }
+.trim-upgrade > span { display: block; }
+.trim-upgrade > strong { display: block; margin: 1rem 0 .65rem; font: 900 clamp(3rem,5vw,5.5rem)/.86 var(--display); letter-spacing: -.065em; white-space: nowrap; }
+.trim-upgrade > p { margin: 0; font-size: .75rem; font-weight: 700; line-height: 1.45; text-transform: uppercase; }
+.trim-scene__features { grid-column: 2; min-width: 0; }
+.trim-scene__features h3 { margin: 0 0 1rem; }
+.trim-scene__features ul { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: .72rem 1.5rem; min-width: 0; margin: 0; padding: 0; list-style: none; }
+.trim-scene__features li { position: relative; min-width: 0; padding-left: 1rem; overflow-wrap: break-word; font-size: clamp(.8rem,.95vw,.95rem); line-height: 1.35; }
 .trim-scene__features li::before { content: "+"; position: absolute; left: 0; font-weight: 900; }
-.trim-story__note { position: absolute; z-index: 4; left: 2vw; right: 2vw; bottom: .8rem; margin: 0; font-size: .5rem; line-height: 1.3; opacity: .54; mix-blend-mode: difference; }
+.trim-scene__legal { position: absolute; left: 2vw; right: 2vw; bottom: .8rem; margin: 0; padding-top: .55rem; border-top: 1px solid currentColor; font-size: .55rem; line-height: 1.35; opacity: .45; }
 
 .chromatic { height: 560vh; background: var(--paper); color: var(--ink); }
 .chromatic-top { display: none; }
@@ -59,27 +52,24 @@
 .color-scene h2 { position: absolute; z-index: 4; left: 2vw; bottom: 2vw; margin: 0; color: #fff; mix-blend-mode: difference; font: 900 clamp(7rem,17vw,18rem)/.63 var(--display); letter-spacing: -.06em; text-transform: uppercase; }
 .color-scene p { position: absolute; z-index: 3; right: 2vw; bottom: 2vw; margin: 0; font-size: .58rem; font-weight: 700; text-transform: uppercase; }
 
-@media (max-width: 900px) {
-  .trim-story { height: 200dvh; }
-  .trim-story__track { height: 100dvh; }
-  .trim-scene { display: block; padding: 1rem; }
-  .trim-scene--luxury { clip-path: inset(100% 0 0 0); }
-  .trim-scene__intro { position: static; width: auto; margin-top: 1rem; max-width: 32rem; }
-  .trim-scene__body,.trim-scene__body--upgrade { position: absolute; left: 1rem; right: 2rem; bottom: 2.7rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem 1rem; padding: 0; }
-  .trim-scene__name { grid-column: 1 / -1; }
-  .trim-scene__name h2 { margin: clamp(2rem, 8vh, 5rem) 0 .25rem; font-size: clamp(3.8rem, 18.5vw, 6.5rem); }
-  .trim-scene__prices { grid-column: 1; align-self: start; grid-template-columns: 1fr; }
-  .trim-scene__prices > div { gap: .28rem; padding: .65rem 0; }
-  .trim-scene__prices > div + div { padding-left: 0; border-left: 0; border-top: 1px solid currentColor; }
-  .trim-scene__prices strong { font-size: clamp(1.65rem, 7vw, 2.35rem); }
-  .trim-upgrade { grid-column: 1; align-self: start; padding: .65rem 0; }
-  .trim-upgrade > strong { margin: 1rem 0 .55rem; font-size: clamp(2.25rem, 10vw, 3.4rem); }
-  .trim-upgrade > p { font-size: .52rem; }
-  .trim-scene__features { grid-column: 2; }
-  .trim-scene__features ul { gap: .42rem .8rem; }
-  .trim-scene__features ul { grid-template-columns: 1fr; }
-  .trim-scene__features li { font-size: clamp(.55rem, 2.35vw, .68rem); }
-  .trim-story__note { left: 1rem; right: 2rem; bottom: .55rem; font-size: .43rem; }
+@media (max-width:900px) {
+  .trim-story { height: 340vh; height: 340svh; }
+  .trim-story__track { height: 100vh; height: 100svh; }
+  .trim-scene { padding: 1rem; }
+  .trim-scene__body { grid-template-columns: minmax(0,1fr); gap: 1rem; padding-bottom: 3.7rem; }
+  .trim-scene__name,.trim-scene__prices,.trim-upgrade,.trim-scene__features { grid-column: 1; }
+  .trim-scene__name { padding-bottom: 1rem; }
+  .trim-scene__name h2 { margin-bottom: .65rem; font-size: clamp(3.8rem,18.5vw,6.5rem); }
+  .trim-scene__name p { font-size: clamp(.88rem,3.5vw,1rem); }
+  .trim-scene__prices { grid-template-columns: 1fr 1fr; }
+  .trim-scene__prices > div { padding-bottom: .75rem; }
+  .trim-scene__prices strong { font-size: clamp(1.75rem,7.4vw,2.45rem); }
+  .trim-upgrade { padding-bottom: .75rem; }
+  .trim-upgrade > strong { margin: .75rem 0 .45rem; font-size: clamp(2.5rem,11vw,3.7rem); }
+  .trim-scene__features h3 { margin-bottom: .65rem; }
+  .trim-scene__features ul { grid-template-columns: 1fr; gap: .38rem; }
+  .trim-scene__features li { font-size: clamp(.75rem,3vw,.88rem); line-height: 1.25; }
+  .trim-scene__legal { left: 1rem; right: 1rem; bottom: .55rem; font-size: .48rem; }
 
   .chromatic { height: 560vh; height: 560dvh; padding: 0; }
   .chromatic-track { height: 100vh; height: 100dvh; }
@@ -91,16 +81,19 @@
   .color-scene h2 { left: 1rem; right: 1rem; bottom: 1.25rem; max-width: none; font-size: clamp(4rem,16.5vw,6.8rem); line-height: .76; letter-spacing: -.055em; }
   .color-scene p { right: 1rem; bottom: 1.25rem; }
 }
-@media (max-width: 380px) {
-  .trim-scene__intro { display: none; }
+
+@media (max-width:380px) {
   .trim-scene__name h2 { font-size: 18vw; }
-  .trim-scene__features li { font-size: .52rem; }
+  .trim-scene__features li { font-size: .72rem; }
   .color-scene h2 { font-size: 15.5vw; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .trim-story, .chromatic { height: auto; overflow: visible; }
-  .trim-story__track, .chromatic-track { position: relative; top: auto; display: block; height: auto; overflow: visible; }
-  .trim-scene, .color-scene { position: relative; inset: auto; width: 100%; min-height: 75vh; clip-path: none !important; }
-  .trim-story__note { position: relative; left: auto; right: auto; bottom: auto; padding: .5rem 1rem; }
+@media (prefers-reduced-motion:reduce) {
+  .trim-story,.chromatic { height: auto; overflow: visible; }
+  .trim-story__track,.chromatic-track { position: relative; top: auto; display: block; height: auto; overflow: visible; }
+  .trim-scene,.color-scene { position: relative; inset: auto; width: 100%; min-height: 75vh; clip-path: none !important; transform: none !important; }
+  .trim-scene { padding: 4rem 1rem; }
+  .trim-scene__body { grid-template-columns: 1fr; padding: 0; }
+  .trim-scene__name,.trim-scene__prices,.trim-upgrade,.trim-scene__features { grid-column: 1; opacity: 1 !important; transform: none !important; }
+  .trim-scene__legal { position: static; margin-top: 2rem; }
 }
