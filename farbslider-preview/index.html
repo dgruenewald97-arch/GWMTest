@@ -3,17 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>GWM ORA 5 – Farbwechsel Preview</title>
+  <title>GWM ORA 5 – Trim & Farbe</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600;700;800;900&display=swap" rel="stylesheet">
   <style>html,body{margin:0;padding:0}</style>
-  <link rel="stylesheet" href="module.css?v=3">
+  <link rel="stylesheet" href="module.css?v=8">
 </head>
 <body>
+  <section class="trim-story" data-trim-compare aria-label="Premium oder Luxury">
+    <div class="trim-story__track">
+      <article class="trim-scene trim-scene--premium" data-trim-scene>
+        <div class="trim-scene__chapter"><span>05 / Deine Linie</span><strong>01 / 02</strong></div>
+        <div class="trim-scene__intro"><p>Starke Basis oder mehr Komfort: Beide Linien bringen die wichtigen ORA 5 Features serienmäßig mit.</p></div>
+        <div class="trim-scene__body">
+          <div class="trim-scene__name"><span>Der Einstieg</span><h2>Premium</h2><p>Alles, was im Alltag zählt.</p></div>
+          <div class="trim-scene__prices"><div><span>Turbo</span><strong>24.990 €</strong></div><div><span>Hybrid</span><strong>26.990 €</strong></div></div>
+          <div class="trim-scene__features"><h3>Serienmäßig</h3><ul><li>18-Zoll-Räder und LED-Licht</li><li>14,6-Zoll-Multimedia</li><li>Wireless CarPlay & Android Auto</li><li>360°-Umgebungskamera</li><li>Über 20 Assistenten & 7 Airbags</li><li>Sitzheizung & 2-Zonen-Klima</li></ul></div>
+        </div>
+      </article>
+      <article class="trim-scene trim-scene--luxury" data-trim-scene>
+        <div class="trim-scene__chapter"><span>05 / Deine Linie</span><strong>02 / 02</strong></div>
+        <div class="trim-scene__intro"><p>Luxury baut auf Premium auf. Der Unterschied steckt im zusätzlichen Komfort.</p></div>
+        <div class="trim-scene__body trim-scene__body--upgrade">
+          <div class="trim-scene__name"><span>Das Upgrade</span><h2>Luxury</h2><p>Premium bleibt drin. Diese Extras kommen dazu.</p></div>
+          <div class="trim-upgrade"><span>Aufpreis bei Turbo & Hybrid</span><strong>+2.500 €</strong><p>Luxury ab 27.490 €<br>Hybrid 29.490 €</p></div>
+          <div class="trim-scene__features trim-scene__features--upgrade"><h3>Nur in Luxury</h3><ul><li>Ledernachbildung</li><li>9 Lautsprecher</li><li>Wireless Charging</li><li>Elektrische Heckklappe</li><li>Memory- & E-Sitze</li><li>Sitzbelüftung & Lenkradheizung</li><li>Ambientebeleuchtung</li><li>Privacy Glass & Klappspiegel</li></ul></div>
+        </div>
+      </article>
+      <p class="trim-story__note">Aktionspreise ab Importlager, zzgl. Überführungskosten. Angebot gültig bis 30.09.2026. Panorama-Glasdach für Luxury optional: 900 €. Lackierungen außer Dover White: 750 €.</p>
+    </div>
+  </section>
+
   <section class="chromatic" id="colors" aria-label="Sieben ORA 5 Farben" data-gwm-color-selector>
-    <div class="chromatic-track">
-      <article class="color-scene" style="--tone:#e9e9e5"><span>01 / 07</span><img src="../assets/ora5/dover-white.png" alt="ORA 5 Dover White"><h2>Dover<br>White</h2><p>Serienfarbe</p></article>
+    <div class="chromatic-top"><span>06 / Deine Farbe</span><strong>Seven ways to say OHHH.</strong></div>
+    <div class="chromatic-track mobile-stack" data-mobile-stack>
+      <article class="color-scene is-active" style="--tone:#e9e9e5"><span>01 / 07</span><img src="../assets/ora5/dover-white.png" alt="ORA 5 Dover White"><h2>Dover<br>White</h2><p>Serienfarbe</p></article>
       <article class="color-scene" style="--tone:#111215;--text:#f5f2e9"><span>02 / 07</span><img src="../assets/ora5/night-black.png" alt="ORA 5 Night Black"><h2>Night<br>Black</h2><p>750 €</p></article>
       <article class="color-scene" style="--tone:#a2a6a4"><span>03 / 07</span><img src="../assets/ora5/glacier-grey.png" alt="ORA 5 Glacier Grey"><h2>Glacier<br>Grey</h2><p>750 €</p></article>
       <article class="color-scene" style="--tone:#667c6d;--text:#f5f2e9"><span>04 / 07</span><img src="../assets/ora5/forest-green.png" alt="ORA 5 Forest Green"><h2>Forest<br>Green</h2><p>750 €</p></article>
@@ -25,6 +50,6 @@
   <script src="../assets/vendor/gsap-3.15.0.min.js"></script>
   <script src="../assets/vendor/scrolltrigger-3.15.0.min.js"></script>
   <script src="../assets/vendor/lenis-1.3.26.min.js"></script>
-  <script src="module.js?v=3"></script>
+  <script src="module.js?v=8"></script>
 </body>
 </html>
