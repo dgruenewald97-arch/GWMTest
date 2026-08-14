@@ -1,0 +1,90 @@
+.gwm-ora5-colors-v2 { color:#111; background:#fff; font-family:"Libre Franklin",Arial,sans-serif; }
+.gwm-ora5-colors-v2 *, .gwm-ora5-colors-v2 *::before, .gwm-ora5-colors-v2 *::after { box-sizing:border-box; }
+
+.gwm-ora5-colors-v2__stage {
+  position:relative; isolation:isolate; width:100%; height:100svh; min-height:40rem;
+  overflow:hidden; background:#fff; contain:layout paint;
+}
+
+.gwm-ora5-colors-v2__panels, .gwm-ora5-colors-v2__panel { position:absolute; inset:0; }
+.gwm-ora5-colors-v2__panels { z-index:3; pointer-events:none; }
+
+.gwm-ora5-colors-v2__panel {
+  z-index:1; overflow:hidden;
+  clip-path:inset(0 var(--slice-end) 0 var(--slice-start));
+  will-change:clip-path;
+}
+
+.gwm-ora5-colors-v2__panel-bg { position:absolute; inset:0 0 28% 0; background:var(--tone); }
+
+.gwm-ora5-colors-v2__panel img {
+  position:absolute; left:50%; bottom:2.6rem; display:block; width:94%; max-width:none;
+  height:auto; transform:translateX(-50%); user-select:none;
+}
+
+.gwm-ora5-colors-v2__hover-zones {
+  position:absolute; z-index:5; inset:0 0 28%; display:grid; grid-template-columns:repeat(7,1fr);
+}
+.gwm-ora5-colors-v2__hover-zones span {
+  position:relative; cursor:pointer;
+  transition:background-color .18s ease;
+}
+.gwm-ora5-colors-v2__hover-zones span:hover { background:rgba(255,255,255,.055); }
+.gwm-ora5-colors-v2.is-resetting .gwm-ora5-colors-v2__hover-zones span,
+.gwm-ora5-colors-v2.is-resetting .gwm-ora5-colors-v2__hover-zones span:hover { background:transparent; }
+.gwm-ora5-colors-v2.has-selection .gwm-ora5-colors-v2__hover-zones span,
+.gwm-ora5-colors-v2.has-selection .gwm-ora5-colors-v2__hover-zones span:hover { background:transparent; box-shadow:none; }
+
+.gwm-ora5-colors-v2__footer { position:absolute; z-index:2; inset:72% 0 0; background:#fff; }
+
+.gwm-ora5-colors-v2__model-name {
+  position:absolute; z-index:6; right:1rem; bottom:5rem; left:1rem; overflow:hidden;
+  color:#111; font-size:clamp(2.65rem,5vw,6.2rem); font-weight:400; line-height:.95;
+  letter-spacing:-.06em; text-align:center; text-transform:uppercase; white-space:nowrap;
+}
+.gwm-ora5-colors-v2__model-name strong { font-weight:900; }
+.gwm-ora5-colors-v2__model-name.is-color-name,
+.gwm-ora5-colors-v2__model-name.is-color-name strong { font-weight:400; }
+
+.gwm-ora5-colors-v2__selector {
+  position:absolute; z-index:7; bottom:max(1rem,env(safe-area-inset-bottom)); left:50%;
+  display:flex; align-items:center; justify-content:center; gap:.8rem; transform:translateX(-50%);
+}
+.gwm-ora5-colors-v2__selector button {
+  appearance:none; display:grid; width:2.75rem; height:2.75rem; margin:0; padding:0;
+  place-items:center; border:0; border-radius:50%; background:transparent; cursor:pointer;
+}
+.gwm-ora5-colors-v2__selector button > span {
+  width:1.15rem; height:1.15rem; border:0; border-radius:50%;
+  background:var(--swatch); box-shadow:none;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.gwm-ora5-colors-v2__selector button:hover > span { transform:scale(1.15); }
+.gwm-ora5-colors-v2__selector button:focus-visible { outline:2px solid #111; outline-offset:1px; }
+.gwm-ora5-colors-v2__selector button.is-active > span { transform:scale(1.3); box-shadow:none; }
+
+.gwm-ora5-colors-v2__legal {
+  position:absolute; z-index:6; bottom:1.15rem; left:clamp(1rem,2vw,2.5rem); width:min(22rem,27vw);
+  margin:0; color:#111; font-size:.52rem; font-weight:500; line-height:1.35;
+}
+.gwm-ora5-colors-v2__legal a { color:inherit; font-weight:900; }
+
+.sr-only { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
+
+@media (max-width:900px) {
+  .gwm-ora5-colors-v2__stage { min-height:39rem; }
+  .gwm-ora5-colors-v2__panel img { bottom:9rem; width:108%; }
+  .gwm-ora5-colors-v2__model-name { bottom:7.9rem; font-size:clamp(2.2rem,11.5vw,3.15rem); }
+  .gwm-ora5-colors-v2__selector { bottom:max(.65rem,env(safe-area-inset-bottom)); gap:.3rem; }
+  .gwm-ora5-colors-v2__selector button { width:2.75rem; height:2.75rem; }
+  .gwm-ora5-colors-v2__legal { right:1rem; bottom:4.65rem; left:1rem; width:auto; font-size:.5rem; text-align:center; }
+}
+
+@media (max-width:380px) {
+  .gwm-ora5-colors-v2__selector { gap:.08rem; }
+  .gwm-ora5-colors-v2__selector button { width:2.65rem; height:2.65rem; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .gwm-ora5-colors-v2__selector button > span { transition:none; }
+}
